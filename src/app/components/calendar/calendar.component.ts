@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { addMonths, subMonths, getDaysInMonth, startOfMonth, endOfMonth, addDays, isWeekend, getDay } from 'date-fns';
-import { weekdays } from 'moment';
 
 @Component({
   selector: 'app-calendar',
