@@ -1,0 +1,90 @@
+.calendar {
+  text-align: center;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  position: relative;
+}
+
+.current-month{
+  font-size: 1.2rem;
+}
+
+.change-month {
+  border: 0;
+  background: none;
+  font-size: 1.3rem;
+  font-weight: lighter;
+}
+
+.right-arrow{
+  position: absolute;
+  margin-left: 180px;
+}
+
+.left-arrow{
+  position: absolute;
+  margin-right: 180px;
+}
+
+.calendar-table {
+  margin: 0 auto;
+  border: 1px solid #dadada;
+  border-radius: 16px;
+}
+
+.calendar-table {
+  border-spacing: 0;
+}
+
+th, td {
+  flex-grow: 1;
+  border: 1px solid #dadada;
+  width: 20dvmin;
+  height: 10dvmin;
+  text-align: center;
+  background-color: white;
+}
+
+th {
+  font-size: 1.5rem;
+}
+
+td {
+  font-size: 1.2rem;
+}
+
+/* Скругление углов для первой ячейки заголовка */
+th:first-child {
+  border-top-left-radius: 15px;
+}
+
+/* Скругление углов для последней ячейки заголовка */
+th:last-child {
+  border-top-right-radius: 15px;
+}
+
+/* Скругление углов для первой ячейки данных в первой строке */
+tr:first-child td:first-child {
+  border-top-left-radius: 15px;
+}
+
+/* Скругление углов для последней ячейки данных в первой строке */
+tr:first-child td:last-child {
+  border-top-right-radius: 15px;
+}
+
+/* Скругление углов для первой ячейки данных в последней строке */
+tr:last-child td:first-child {
+  border-bottom-left-radius: 15px;
+}
+
+/* Скругление углов для последней ячейки данных в последней строке */
+tr:last-child td:last-child {
+  border-bottom-right-radius: 15px;
+}
+

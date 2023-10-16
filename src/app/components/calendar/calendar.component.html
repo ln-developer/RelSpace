@@ -1,0 +1,21 @@
+<div class="calendar">
+  <div class="calendar-header">
+    <button class="change-month left-arrow" (click)="changeMonth(-1)"><</button>
+    <div class="current-month">{{ selectedMonth | date: 'MMMM yyyy' }}</div>
+    <button class="change-month right-arrow" (click)="changeMonth(1)">></button>
+  </div>
+  <table class="calendar-table">
+    <tr>
+      <ng-container *ngFor="let day of ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']">
+        <th>{{ day }}</th>
+      </ng-container>
+    </tr>
+    <ng-container *ngFor="let week of calendarDays">
+      <tr>
+        <ng-container *ngFor="let day of week">
+          <td>{{ day | date: 'd' }}</td>
+        </ng-container>
+      </tr>
+    </ng-container>
+  </table>
+</div>
