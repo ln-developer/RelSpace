@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { addMonths, subMonths, startOfMonth, endOfMonth, addDays, isWeekend} from 'date-fns';
+import { addMonths, subMonths, startOfMonth, endOfMonth, addDays, isWeekend } from 'date-fns';
+import { format } from 'date-fns';
+import { ru } from 'date-fns/locale';
 
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.css']
+  styleUrls: ['./calendar.component.css'],
 })
 export class CalendarComponent implements OnInit {
   selectedMonth: Date = new Date();
   calendarDays: Date[][] = [];
 
-  constructor() {
-  }
+  constructor() {}
 
   ngOnInit(): void {
     this.updateCalendar();
@@ -42,8 +43,13 @@ export class CalendarComponent implements OnInit {
       currentWeek = [];
     }
   }
+
   changeMonth(increment: number) {
     this.selectedMonth = increment > 0 ? addMonths(this.selectedMonth, 1) : subMonths(this.selectedMonth, 1);
     this.updateCalendar();
+  }
+
+  formatMonthName(date: Date): string {
+    return format(date, 'LLLL yyyy', { locale: ru });
   }
 }
