@@ -50,6 +50,8 @@ export class CalendarComponent implements OnInit {
   }
 
   formatMonthName(date: Date): string {
-    return format(date, 'LLLL yyyy', { locale: ru });
+    const month = new Intl.DateTimeFormat('ru', { month: 'long' }).format(date);
+    const year = date.getFullYear();
+    return `${month.charAt(0).toUpperCase() + month.slice(1)} ${year}`;
   }
 }
