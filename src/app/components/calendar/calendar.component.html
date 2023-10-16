@@ -6,16 +6,12 @@
   </div>
   <table class="calendar-table">
     <tr>
-      <ng-container *ngFor="let day of ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']">
-        <th>{{ day }}</th>
+      <th *ngFor="let day of ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']">{{ day }}</th>
+    </tr>
+    <tr *ngFor="let week of calendarDays">
+      <ng-container *ngFor="let day of week">
+        <td>{{ day | date: 'd' }}</td>
       </ng-container>
     </tr>
-    <ng-container *ngFor="let week of calendarDays">
-      <tr>
-        <ng-container *ngFor="let day of week">
-          <td>{{ day | date: 'd' }}</td>
-        </ng-container>
-      </tr>
-    </ng-container>
   </table>
 </div>
