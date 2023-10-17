@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { addMonths, subMonths, startOfMonth, endOfMonth, addDays, isWeekend } from 'date-fns';
-import {toNumbers} from '@angular/compiler-cli/src/version_helpers';
 
 @Component({
   selector: 'app-calendar',
@@ -46,7 +45,6 @@ export class CalendarComponent implements OnInit {
     while (currentDate <= lastDay) {
       if (firstWeek && currentDate.getDate() === 1 && currentDate.getDay() > 1 && currentDate.getDay() <= 5) {
         // Если первое число текущего месяца попадает на вторник-пятницу, добавляем числа предыдущего месяца
-        const prevMonthLastDay = subMonths(firstDay, 1);
         let i = this.previousMonthDates.length - 1;
         while (i >= 0) {
           const lastPrevMonthDay = this.previousMonthDates[i];
