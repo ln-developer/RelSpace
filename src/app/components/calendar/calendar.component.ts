@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { addMonths, subMonths, startOfMonth, endOfMonth, addDays, isWeekend } from 'date-fns';
+import { addMonths, subMonths, startOfMonth, endOfMonth, addDays, isWeekend, getDay } from 'date-fns';
 
 @Component({
   selector: 'app-calendar',
@@ -8,9 +8,16 @@ import { addMonths, subMonths, startOfMonth, endOfMonth, addDays, isWeekend } fr
 })
 export class CalendarComponent implements OnInit {
   selectedMonth: Date = new Date();
-  calendarDays: Date[][] = [];
-  previousMonthDates: number[] = [];
-
+  calendarDays: Date[] = [];
+  prevMonthArr: Date[] = [];
+  nextMonthArr: Date[] = [];
+  calendarWeeks: Date[][] = [];
+  firstDaySelMonth: Date = startOfMonth(this.selectedMonth);
+  lastDaySelMonth: Date = endOfMonth(this.selectedMonth);
+  firstDayPrevMonth: Date = startOfMonth(subMonths(this.selectedMonth, 1));
+  lastDayPrevMonth: Date = endOfMonth(subMonths(this.selectedMonth, 1));
+  firstDayNextMonth: Date = startOfMonth(addMonths(this.selectedMonth, 1));
+  lastDayNextMonth: Date = endOfMonth(addMonths(this.selectedMonth, 1));
 
   constructor() {}
 
@@ -19,68 +26,54 @@ export class CalendarComponent implements OnInit {
   }
 
   updateCalendar() {
+    this.prevMonthArr = [];
+    this.nextMonthArr = [];
     this.calendarDays = [];
-    const firstDay = startOfMonth(this.selectedMonth);
-    const lastDay = endOfMonth(this.selectedMonth);
-    const firstDayOfPreviousMonth = startOfMonth(subMonths(this.selectedMonth, 1));
-    const lastDayOfPreviousMonth = endOfMonth(subMonths(this.selectedMonth, 1));
 
-    let previousDate = firstDayOfPreviousMonth;
-    while (previousDate <= lastDayOfPreviousMonth) {
-      this.previousMonthDates.push(previousDate.getDate());
-      previousDate = addDays(previousDate, 1);
+    for (let date = this.firstDayPrevMonth; date <= this.lastDayPrevMonth; date = addDays(date, 1)) {
+      this.prevMonthArr.unshift(date);
     }
 
-
-    let currentDate = firstDay;
-
-    // Находим первый будний день месяца, исключая выходные
-    while (isWeekend(currentDate)) {
-      currentDate = addDays(currentDate, 1);
+    for (let date = this.firstDayNextMonth; date <= this.lastDayNextMonth; date = addDays(date, 1)) {
+      this.nextMonthArr.push(date);
     }
 
-    const currentWeek: Date[] = [];
-    let firstWeek = true;
+    for (let date = this.firstDaySelMonth; date <= this.lastDaySelMonth; date = addDays(date, 1)) {
 
-    while (currentDate <= lastDay) {
-      if (firstWeek && currentDate.getDate() === 1 && currentDate.getDay() > 1 && currentDate.getDay() <= 5) {
-        // Если первое число текущего месяца попадает на вторник-пятницу, добавляем числа предыдущего месяца
-        let i = this.previousMonthDates.length - 1;
-        while (i >= 0) {
-          const lastPrevMonthDay = this.previousMonthDates[i];
-          if (isWeekend(lastPrevMonthDay)) break;
-          currentWeek.unshift(new Date(lastPrevMonthDay));
-          i--;
-        }
-        firstWeek = false; // Указываем, что первая неделя уже обработана
-      } else if (!isWeekend(currentDate)) { // Проверка на будний день
-        currentWeek.push(currentDate);
-      }
-
-      if (currentDate.getDate() === lastDay.getDate() && currentDate.getDay() >= 1 && currentDate.getDay() <= 4) {
-        // Если последнее число текущего месяца попадает на понедельник-четверг, добавляем числа следующего месяца
-        let nextMonthFirstDay = addMonths(lastDay, 1);
-        while (currentWeek.length < 25 && (nextMonthFirstDay.getDay() !== 0 && nextMonthFirstDay.getDay() !== 5)) {
-          currentWeek.push(new Date(nextMonthFirstDay.getFullYear(), nextMonthFirstDay.getMonth(), nextMonthFirstDay.getDate()));
-          nextMonthFirstDay = addDays(nextMonthFirstDay, 1);
+      if (date === this.firstDaySelMonth) {
+        const firstDay = getDay(date);
+        if (firstDay > 1 && firstDay <= 5) {
+          for (let i = 0; i < 5 - (6 - firstDay); i++) {
+            this.calendarDays.unshift(this.prevMonthArr[i]);
+          }
         }
       }
 
-      if (currentWeek.length === 5) {
-        this.calendarDays.push(currentWeek.slice()); // Создаем копию массива недели
-        currentWeek.length = 0; // Очищаем массив для следующей недели
+      if (!isWeekend(date)) {
+        this.calendarDays.push(date);
       }
 
-      currentDate = addDays(currentDate, 1);
+      if (date.setHours(0, 0, 0, 0) === this.lastDaySelMonth.setHours(0, 0, 0, 0)) {
+        const lastDay = getDay(date);
+        if (lastDay >= 1 && lastDay < 5) {
+          for (let i = 0; i < 5 - lastDay; i++) {
+            this.calendarDays.push(this.nextMonthArr[i]);
+          }
+        }
+      }
     }
 
-    if (currentWeek.length > 0) {
-      this.calendarDays.push(currentWeek); // Добавляем оставшуюся неполную неделю
-    }
+    this.calendarWeeks = this.splitArrayIntoWeeks(this.calendarDays);
   }
 
   changeMonth(increment: number) {
     this.selectedMonth = increment > 0 ? addMonths(this.selectedMonth, 1) : subMonths(this.selectedMonth, 1);
+    this.firstDaySelMonth = startOfMonth(this.selectedMonth);
+    this.lastDaySelMonth = endOfMonth(this.selectedMonth);
+    this.firstDayPrevMonth = startOfMonth(subMonths(this.selectedMonth, 1));
+    this.lastDayPrevMonth = endOfMonth(subMonths(this.selectedMonth, 1));
+    this.firstDayNextMonth = startOfMonth(addMonths(this.selectedMonth, 1));
+    this.lastDayNextMonth = endOfMonth(addMonths(this.selectedMonth, 1));
     this.updateCalendar();
   }
 
@@ -89,4 +82,23 @@ export class CalendarComponent implements OnInit {
     const year = date.getFullYear();
     return `${month.charAt(0).toUpperCase() + month.slice(1)} ${year}`;
   }
+
+    splitArrayIntoWeeks(array: Date[]): Date[][] {
+        const weeks: Date[][] = [];
+        let week: Date[] = [];
+
+        for (const date of array) {
+            week.push(date);
+            if (week.length === 5) {
+                weeks.push(week);
+                week = [];
+            }
+        }
+
+        // if (week.length > 0) {
+        //     weeks.push(week);
+        // }
+
+        return weeks;
+    }
 }

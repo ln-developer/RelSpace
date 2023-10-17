@@ -8,10 +8,8 @@
     <tr>
       <th *ngFor="let day of ['Пн', 'Вт', 'Ср', 'Чт', 'Пт']">{{ day }}</th>
     </tr>
-    <tr *ngFor="let week of calendarDays">
-      <ng-container *ngFor="let day of week">
-        <td>{{ day | date: 'd' }}</td>
-      </ng-container>
+    <tr *ngFor="let row of calendarWeeks">
+      <td *ngFor="let cell of row">{{ cell | date: 'dd' }}</td>
     </tr>
   </table>
 </div>
