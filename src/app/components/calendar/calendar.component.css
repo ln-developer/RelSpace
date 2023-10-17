@@ -49,7 +49,8 @@ th, td {
 }
 
 .calendar-week:hover td {
-    background-color: #FF6C6C;
+  background-color: #FF6C6C;
+  color: white;
 }
 
 th {
