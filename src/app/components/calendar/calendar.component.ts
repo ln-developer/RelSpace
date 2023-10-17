@@ -25,6 +25,23 @@ export class CalendarComponent implements OnInit {
     this.updateCalendar();
   }
 
+    ngAfterViewInit() {
+        // Обработчик событий для выделения рядов
+        document.querySelectorAll('.calendar-week').forEach(row => {
+            row.addEventListener('mouseover', () => {
+                row.querySelectorAll('td').forEach(cell => {
+                    cell.style.backgroundColor = '#FF6C6C'; // Устанавливаем красный фон
+                });
+            });
+
+            row.addEventListener('mouseout', () => {
+                row.querySelectorAll('td').forEach(cell => {
+                    cell.style.backgroundColor = 'transparent'; // Возвращаем прозрачный фон
+                });
+            });
+        });
+    }
+
   updateCalendar() {
     this.prevMonthArr = [];
     this.nextMonthArr = [];
@@ -94,11 +111,7 @@ export class CalendarComponent implements OnInit {
                 week = [];
             }
         }
-
-        // if (week.length > 0) {
-        //     weeks.push(week);
-        // }
-
         return weeks;
     }
+
 }

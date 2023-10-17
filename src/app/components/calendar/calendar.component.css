@@ -2,14 +2,6 @@
   text-align: center;
 }
 
-.calendar-header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-  position: relative;
-}
-
 .current-month{
   font-size: 1.2rem;
 }
@@ -31,15 +23,21 @@
   margin-right: 180px;
 }
 
+.calendar-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  position: relative;
+}
+
 .calendar-table {
   margin: 0 auto;
   border: 1px solid #dadada;
   border-radius: 16px;
-}
-
-.calendar-table {
   border-spacing: 0;
 }
+
 
 th, td {
   flex-grow: 1;
@@ -48,6 +46,10 @@ th, td {
   height: 10dvmin;
   text-align: center;
   background-color: white;
+}
+
+.calendar-week:hover td {
+    background-color: #FF6C6C;
 }
 
 th {
