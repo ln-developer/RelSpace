@@ -168,7 +168,7 @@ export class CalendarComponent implements OnInit {
   }
 
   updateMouseOverHandlers() {
-    document.querySelectorAll('.calendar-week').forEach((row, index) => {
+    document.querySelectorAll('.calendar-week').forEach(row => {
       row.removeEventListener('mouseover', this.handleMouseOver as EventListener);
       row.removeEventListener('mouseout', this.handleMouseOut as EventListener);
       row.addEventListener('mouseover', this.handleMouseOver as EventListener);
