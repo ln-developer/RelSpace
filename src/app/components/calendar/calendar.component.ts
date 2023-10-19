@@ -37,48 +37,48 @@ export class CalendarComponent implements OnInit {
   }
 
   ngAfterViewInit(){
-    this.findRowWithNumber();
+    this.findCurrentWeek();
 
-    document.querySelectorAll('.calendar-week').forEach((row, rowIndex) => {
-      row.querySelectorAll('td').forEach(cell => {
-        if (rowIndex === this.selectedRowIndex) {
-          cell.style.backgroundColor = '#FF6C6C';
-          cell.style.color = 'white';
-        } else {
-          cell.style.backgroundColor = 'transparent';
-          cell.style.color = 'black';
-        }
-      });
+    document.querySelectorAll('.calendar-week').forEach((row, index) => {
+      const isSelected = index === this.selectedRowIndex;
+      this.setRowStyles(row, isSelected);
     });
-
+    this.updateMouseOverHandlers();
   }
 
-  findRowWithNumber() {
+  ngAfterViewChecked() {
+    this.updateMouseOverHandlers();
+  }
+
+  findCurrentWeek() {
     let dayOfMonth = getDate(this.selectedMonth);
-    console.log(dayOfMonth);
     let foundRowIndex = -1;
 
     document.querySelectorAll('.calendar-week').forEach((row, index) => {
       row.querySelectorAll('td').forEach((cell) => {
-        // @ts-ignore
-        let cellContent = cell.textContent.trim();
-        let cellNumber = parseInt(cellContent, 10);
+        const cellContent = cell.textContent?.trim();
+        if (cellContent) {
+          const cellNumber = parseInt(cellContent, 10);
 
-        if (!isNaN(cellNumber) && cellNumber === dayOfMonth) {
-          foundRowIndex = index;
-          return; // Выход из цикла, если число найдено
+          if (!isNaN(cellNumber) && cellNumber === dayOfMonth) {
+            foundRowIndex = index;
+            return;
+          }
         }
       });
     });
+
     if (foundRowIndex >= 0) {
       this.selectedRowIndex = foundRowIndex;
     } else {
       dayOfMonth--;
     }
+    console.log(this.selectedRowIndex);
   }
 
   handleRowClick(index: number) {
     this.selectedRowIndex = index;
+    console.log(index);
     document.querySelectorAll('.calendar-week').forEach((row, rowIndex) => {
       row.querySelectorAll('td').forEach(cell => {
         if (rowIndex === index) {
@@ -130,23 +130,7 @@ export class CalendarComponent implements OnInit {
       }
     }
     this.calendarWeeks = this.splitArrayIntoWeeks(this.calendarDays);
-  }
 
-  changeMonth(increment: number) {
-    this.selectedMonth = increment > 0 ? addMonths(this.selectedMonth, 1) : subMonths(this.selectedMonth, 1);
-    this.firstDaySelMonth = startOfMonth(this.selectedMonth);
-    this.lastDaySelMonth = endOfMonth(this.selectedMonth);
-    this.firstDayPrevMonth = startOfMonth(subMonths(this.selectedMonth, 1));
-    this.lastDayPrevMonth = endOfMonth(subMonths(this.selectedMonth, 1));
-    this.firstDayNextMonth = startOfMonth(addMonths(this.selectedMonth, 1));
-    this.lastDayNextMonth = endOfMonth(addMonths(this.selectedMonth, 1));
-    this.updateCalendar();
-  }
-
-  formatMonthName(date: Date): string {
-    const month = new Intl.DateTimeFormat('ru', { month: 'long' }).format(date);
-    const year = date.getFullYear();
-    return `${month.charAt(0).toUpperCase() + month.slice(1)} ${year}`;
   }
 
   splitArrayIntoWeeks(array: Date[]): Date[][] {
@@ -162,4 +146,60 @@ export class CalendarComponent implements OnInit {
     return weeks;
   }
 
+  changeMonth(increment: number) {
+    this.selectedMonth = increment > 0 ? addMonths(this.selectedMonth, 1) : subMonths(this.selectedMonth, 1);
+    this.firstDaySelMonth = startOfMonth(this.selectedMonth);
+    this.lastDaySelMonth = endOfMonth(this.selectedMonth);
+    this.firstDayPrevMonth = startOfMonth(subMonths(this.selectedMonth, 1));
+    this.lastDayPrevMonth = endOfMonth(subMonths(this.selectedMonth, 1));
+    this.firstDayNextMonth = startOfMonth(addMonths(this.selectedMonth, 1));
+    this.lastDayNextMonth = endOfMonth(addMonths(this.selectedMonth, 1));
+    this.updateCalendar();
+    this.selectedRowIndex = -1;
+  }
+
+  setRowStyles(row: Element, isSelected: boolean): void {
+    const color = isSelected ? '#FF6C6C' : 'transparent';
+    const textColor = isSelected ? 'white' : 'black';
+    row.querySelectorAll('td').forEach(cell => {
+      cell.style.backgroundColor = color;
+      cell.style.color = textColor;
+    });
+  }
+
+  updateMouseOverHandlers() {
+    document.querySelectorAll('.calendar-week').forEach((row, index) => {
+      row.removeEventListener('mouseover', this.handleMouseOver as EventListener);
+      row.removeEventListener('mouseout', this.handleMouseOut as EventListener);
+      row.addEventListener('mouseover', this.handleMouseOver as EventListener);
+      row.addEventListener('mouseout', this.handleMouseOut as EventListener);
+    });
+  }
+
+  handleMouseOver = (event: MouseEvent) => {
+    const index = Array.from(document.querySelectorAll('.calendar-week')).indexOf(event.currentTarget as Element);
+
+    if (index !== this.selectedRowIndex) {
+      (event.currentTarget as Element).querySelectorAll('td').forEach(cell => {
+        cell.style.backgroundColor = '#f3f3f3';
+      });
+    }
+  }
+
+  handleMouseOut = (event: MouseEvent) => {
+    const index = Array.from(document.querySelectorAll('.calendar-week')).indexOf(event.currentTarget as Element);
+
+    if (index !== this.selectedRowIndex) {
+      (event.currentTarget as Element).querySelectorAll('td').forEach(cell => {
+        cell.style.backgroundColor = 'transparent';
+        cell.style.color = 'black';
+      });
+    }
+  }
+
+  formatMonthName(date: Date): string {
+    const month = new Intl.DateTimeFormat('ru', { month: 'long' }).format(date);
+    const year = date.getFullYear();
+    return `${month.charAt(0).toUpperCase() + month.slice(1)} ${year}`;
+  }
 }

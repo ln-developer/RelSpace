@@ -38,7 +38,6 @@
   border-spacing: 0;
 }
 
-
 th, td {
   flex-grow: 1;
   border: 1px solid #dadada;
@@ -55,6 +54,7 @@ th {
 
 td {
   font-size: 1.2rem;
+  background-color: white;
 }
 
 /* Скругление углов для первой ячейки заголовка */
@@ -86,4 +86,5 @@ tr:last-child td:first-child {
 tr:last-child td:last-child {
   border-bottom-right-radius: 15px;
 }
+
 
