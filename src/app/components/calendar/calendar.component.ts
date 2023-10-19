@@ -1,5 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { addMonths, subMonths, startOfMonth, endOfMonth, addDays, isWeekend, getDay } from 'date-fns';
+import {
+  addMonths,
+  subMonths,
+  startOfMonth,
+  endOfMonth,
+  addDays,
+  isWeekend,
+  getDay,
+  getDate
+} from 'date-fns';
 
 @Component({
   selector: 'app-calendar',
@@ -8,6 +17,7 @@ import { addMonths, subMonths, startOfMonth, endOfMonth, addDays, isWeekend, get
 })
 export class CalendarComponent implements OnInit {
   selectedMonth: Date = new Date();
+  selectedRowIndex: number = 0;
   calendarDays: Date[] = [];
   prevMonthArr: Date[] = [];
   nextMonthArr: Date[] = [];
@@ -21,26 +31,66 @@ export class CalendarComponent implements OnInit {
 
   constructor() {}
 
+
   ngOnInit(): void {
     this.updateCalendar();
   }
 
-    ngAfterViewInit() {
-        // Обработчик событий для выделения рядов
-        document.querySelectorAll('.calendar-week').forEach(row => {
-            row.addEventListener('mouseover', () => {
-                row.querySelectorAll('td').forEach(cell => {
-                    cell.style.backgroundColor = '#FF6C6C'; // Устанавливаем красный фон
-                });
-            });
+  ngAfterViewInit(){
+    this.findRowWithNumber();
 
-            row.addEventListener('mouseout', () => {
-                row.querySelectorAll('td').forEach(cell => {
-                    cell.style.backgroundColor = 'transparent'; // Возвращаем прозрачный фон
-                });
-            });
-        });
+    document.querySelectorAll('.calendar-week').forEach((row, rowIndex) => {
+      row.querySelectorAll('td').forEach(cell => {
+        if (rowIndex === this.selectedRowIndex) {
+          cell.style.backgroundColor = '#FF6C6C';
+          cell.style.color = 'white';
+        } else {
+          cell.style.backgroundColor = 'transparent';
+          cell.style.color = 'black';
+        }
+      });
+    });
+
+  }
+
+  findRowWithNumber() {
+    let dayOfMonth = getDate(this.selectedMonth);
+    console.log(dayOfMonth);
+    let foundRowIndex = -1;
+
+    document.querySelectorAll('.calendar-week').forEach((row, index) => {
+      row.querySelectorAll('td').forEach((cell) => {
+        // @ts-ignore
+        let cellContent = cell.textContent.trim();
+        let cellNumber = parseInt(cellContent, 10);
+
+        if (!isNaN(cellNumber) && cellNumber === dayOfMonth) {
+          foundRowIndex = index;
+          return; // Выход из цикла, если число найдено
+        }
+      });
+    });
+    if (foundRowIndex >= 0) {
+      this.selectedRowIndex = foundRowIndex;
+    } else {
+      dayOfMonth--;
     }
+  }
+
+  handleRowClick(index: number) {
+    this.selectedRowIndex = index;
+    document.querySelectorAll('.calendar-week').forEach((row, rowIndex) => {
+      row.querySelectorAll('td').forEach(cell => {
+        if (rowIndex === index) {
+          cell.style.backgroundColor = '#FF6C6C';
+          cell.style.color = 'white';
+        } else {
+          cell.style.backgroundColor = 'transparent';
+          cell.style.color = 'black';
+        }
+      });
+    });
+  }
 
   updateCalendar() {
     this.prevMonthArr = [];
@@ -79,7 +129,6 @@ export class CalendarComponent implements OnInit {
         }
       }
     }
-
     this.calendarWeeks = this.splitArrayIntoWeeks(this.calendarDays);
   }
 
@@ -100,18 +149,17 @@ export class CalendarComponent implements OnInit {
     return `${month.charAt(0).toUpperCase() + month.slice(1)} ${year}`;
   }
 
-    splitArrayIntoWeeks(array: Date[]): Date[][] {
-        const weeks: Date[][] = [];
-        let week: Date[] = [];
-
-        for (const date of array) {
-            week.push(date);
-            if (week.length === 5) {
-                weeks.push(week);
-                week = [];
-            }
-        }
-        return weeks;
+  splitArrayIntoWeeks(array: Date[]): Date[][] {
+    const weeks: Date[][] = [];
+    let week: Date[] = [];
+    for (const date of array) {
+      week.push(date);
+      if (week.length === 5) {
+        weeks.push(week);
+        week = [];
+      }
     }
+    return weeks;
+  }
 
 }
