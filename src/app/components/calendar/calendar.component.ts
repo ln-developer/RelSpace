@@ -170,6 +170,10 @@ export class CalendarComponent implements OnInit {
     if (index !== this.selectedRowIndex) {
       (event.currentTarget as Element).querySelectorAll('td').forEach(cell => {
         cell.style.backgroundColor = '#f3f3f3';
+
+        if (cell.classList.contains('other-month')) {
+          cell.style.color = 'gray';
+        }
       });
     }
   }
@@ -180,6 +184,10 @@ export class CalendarComponent implements OnInit {
     if (index !== this.selectedRowIndex) {
       (event.currentTarget as Element).querySelectorAll('td').forEach(cell => {
         cell.style.backgroundColor = 'transparent';
+
+        if (cell.classList.contains('other-month')) {
+          cell.style.color = '#b4b4b4';
+        }
       });
     }
   }
@@ -191,13 +199,20 @@ export class CalendarComponent implements OnInit {
   }
 
   generateMonthsArr(month: Date) {
+
     const firstDay = startOfMonth(month);
     const lastDay = endOfMonth(month);
     const array: { day: Date; isCurrentMonth: boolean }[] = [];
 
-    for (let date = firstDay; date <= lastDay; date = addDays(date, 1)) {
-      array.unshift({day: date, isCurrentMonth: false });
+    if (month < this.selectedMonth) {
+      for (let date = firstDay; date <= lastDay; date = addDays(date, 1)) {
+        array.unshift({day: date, isCurrentMonth: false });
+      }
+    } else {for (let date = firstDay; date <= lastDay; date = addDays(date, 1)) {
+              array.push({day: date, isCurrentMonth: false });
+        }
     }
+
     return array;
   }
 }
