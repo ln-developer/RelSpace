@@ -9,7 +9,8 @@
       <th *ngFor="let day of ['Пн', 'Вт', 'Ср', 'Чт', 'Пт']">{{ day }}</th>
     </tr>
     <tr class="calendar-week" *ngFor="let row of calendarWeeks; let i = index" (click)="handleRowClick(i)">
-      <td *ngFor="let cell of row">{{ cell | date: 'dd' }}</td>
+      <td *ngFor="let cell of row" [ngClass]="{'other-month': !cell.isCurrentMonth}">{{ cell.day | date: 'dd' }}</td>
     </tr>
   </table>
 </div>
+

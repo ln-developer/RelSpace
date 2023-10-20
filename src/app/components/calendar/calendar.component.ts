@@ -1,14 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  addMonths,
-  subMonths,
-  startOfMonth,
-  endOfMonth,
-  addDays,
-  isWeekend,
-  getDay,
-  getDate
-} from 'date-fns';
+import {Component, OnInit} from '@angular/core';
+import {addDays, addMonths, endOfMonth, getDate, getDay, isWeekend, startOfMonth, subMonths} from 'date-fns';
 
 @Component({
   selector: 'app-calendar',
@@ -18,10 +9,10 @@ import {
 export class CalendarComponent implements OnInit {
   selectedMonth: Date = new Date();
   selectedRowIndex: number = 0;
-  calendarDays: Date[] = [];
-  prevMonthArr: Date[] = [];
-  nextMonthArr: Date[] = [];
-  calendarWeeks: Date[][] = [];
+  calendarDays: { day: Date; isCurrentMonth: boolean }[] = [];
+  prevMonthArr: { day: Date; isCurrentMonth: boolean }[] = [];
+  nextMonthArr: { day: Date; isCurrentMonth: boolean }[] = [];
+  calendarWeeks: { day: Date; isCurrentMonth: boolean }[][] = [];
   firstDaySelMonth: Date = startOfMonth(this.selectedMonth);
   lastDaySelMonth: Date = endOfMonth(this.selectedMonth);
   firstDayPrevMonth: Date = startOfMonth(subMonths(this.selectedMonth, 1));
@@ -47,6 +38,10 @@ export class CalendarComponent implements OnInit {
   }
 
   ngAfterViewChecked() {
+    document.querySelectorAll('.calendar-week').forEach((row, index) => {
+      const isSelected = index === this.selectedRowIndex;
+      this.setRowStyles(row, isSelected);
+    });
     this.updateMouseOverHandlers();
   }
 
@@ -86,7 +81,12 @@ export class CalendarComponent implements OnInit {
           cell.style.color = 'white';
         } else {
           cell.style.backgroundColor = 'transparent';
-          cell.style.color = 'black';
+
+          if (cell.classList.contains('other-month')) {
+            cell.style.color = '#b4b4b4';
+          } else {
+            cell.style.color = 'black';
+          }
         }
       });
     });
@@ -98,11 +98,11 @@ export class CalendarComponent implements OnInit {
     this.calendarDays = [];
 
     for (let date = this.firstDayPrevMonth; date <= this.lastDayPrevMonth; date = addDays(date, 1)) {
-      this.prevMonthArr.unshift(date);
+      this.prevMonthArr.unshift({day: date, isCurrentMonth: false });
     }
 
     for (let date = this.firstDayNextMonth; date <= this.lastDayNextMonth; date = addDays(date, 1)) {
-      this.nextMonthArr.push(date);
+      this.nextMonthArr.push({day: date, isCurrentMonth: false });
     }
 
     for (let date = this.firstDaySelMonth; date <= this.lastDaySelMonth; date = addDays(date, 1)) {
@@ -117,7 +117,7 @@ export class CalendarComponent implements OnInit {
       }
 
       if (!isWeekend(date)) {
-        this.calendarDays.push(date);
+        this.calendarDays.push({day: date, isCurrentMonth: true });
       }
 
       if (date.setHours(0, 0, 0, 0) === this.lastDaySelMonth.setHours(0, 0, 0, 0)) {
@@ -133,16 +133,20 @@ export class CalendarComponent implements OnInit {
 
   }
 
-  splitArrayIntoWeeks(array: Date[]): Date[][] {
-    const weeks: Date[][] = [];
-    let week: Date[] = [];
-    for (const date of array) {
-      week.push(date);
-      if (week.length === 5) {
+  splitArrayIntoWeeks(array: { day: Date; isCurrentMonth: boolean }[]): { day: Date; isCurrentMonth: boolean }[][] {
+    const weeks: { day: Date; isCurrentMonth: boolean }[][] = [];
+    let week: { day: Date; isCurrentMonth: boolean }[] = [];
+
+    for (const dateObj of array) {
+      week.push(dateObj);
+
+      // Проверяем, если текущий день оканчивает неделю или это последний день в массиве
+      if (week.length === 5 || array.indexOf(dateObj) === array.length - 1) {
         weeks.push(week);
         week = [];
       }
     }
+
     return weeks;
   }
 
@@ -160,10 +164,14 @@ export class CalendarComponent implements OnInit {
 
   setRowStyles(row: Element, isSelected: boolean): void {
     const color = isSelected ? '#FF6C6C' : 'transparent';
-    const textColor = isSelected ? 'white' : 'black';
     row.querySelectorAll('td').forEach(cell => {
       cell.style.backgroundColor = color;
-      cell.style.color = textColor;
+
+      if (cell.classList.contains('other-month')) {
+        cell.style.color = '#b4b4b4';
+      } else {
+        cell.style.color = isSelected ? 'white' : 'black';
+      }
     });
   }
 
@@ -192,7 +200,6 @@ export class CalendarComponent implements OnInit {
     if (index !== this.selectedRowIndex) {
       (event.currentTarget as Element).querySelectorAll('td').forEach(cell => {
         cell.style.backgroundColor = 'transparent';
-        cell.style.color = 'black';
       });
     }
   }
