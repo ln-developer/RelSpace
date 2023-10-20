@@ -9,16 +9,9 @@ import {addDays, addMonths, endOfMonth, getDate, getDay, isWeekend, startOfMonth
 export class CalendarComponent implements OnInit {
   selectedMonth: Date = new Date();
   selectedRowIndex: number = 0;
-  calendarDays: { day: Date; isCurrentMonth: boolean }[] = [];
-  prevMonthArr: { day: Date; isCurrentMonth: boolean }[] = [];
-  nextMonthArr: { day: Date; isCurrentMonth: boolean }[] = [];
   calendarWeeks: { day: Date; isCurrentMonth: boolean }[][] = [];
   firstDaySelMonth: Date = startOfMonth(this.selectedMonth);
   lastDaySelMonth: Date = endOfMonth(this.selectedMonth);
-  firstDayPrevMonth: Date = startOfMonth(subMonths(this.selectedMonth, 1));
-  lastDayPrevMonth: Date = endOfMonth(subMonths(this.selectedMonth, 1));
-  firstDayNextMonth: Date = startOfMonth(addMonths(this.selectedMonth, 1));
-  lastDayNextMonth: Date = endOfMonth(addMonths(this.selectedMonth, 1));
 
   constructor() {}
 
@@ -93,17 +86,9 @@ export class CalendarComponent implements OnInit {
   }
 
   updateCalendar() {
-    this.prevMonthArr = [];
-    this.nextMonthArr = [];
-    this.calendarDays = [];
-
-    for (let date = this.firstDayPrevMonth; date <= this.lastDayPrevMonth; date = addDays(date, 1)) {
-      this.prevMonthArr.unshift({day: date, isCurrentMonth: false });
-    }
-
-    for (let date = this.firstDayNextMonth; date <= this.lastDayNextMonth; date = addDays(date, 1)) {
-      this.nextMonthArr.push({day: date, isCurrentMonth: false });
-    }
+    const prevMonthArr = this.generateMonthsArr(subMonths(this.selectedMonth, 1));
+    const nextMonthArr = this.generateMonthsArr(addMonths(this.selectedMonth, 1));
+    const calendarDays = [];
 
     for (let date = this.firstDaySelMonth; date <= this.lastDaySelMonth; date = addDays(date, 1)) {
 
@@ -111,25 +96,25 @@ export class CalendarComponent implements OnInit {
         const firstDay = getDay(date);
         if (firstDay > 1 && firstDay <= 5) {
           for (let i = 0; i < 5 - (6 - firstDay); i++) {
-            this.calendarDays.unshift(this.prevMonthArr[i]);
+            calendarDays.unshift(prevMonthArr[i]);
           }
         }
       }
 
       if (!isWeekend(date)) {
-        this.calendarDays.push({day: date, isCurrentMonth: true });
+        calendarDays.push({day: date, isCurrentMonth: true });
       }
 
       if (date.setHours(0, 0, 0, 0) === this.lastDaySelMonth.setHours(0, 0, 0, 0)) {
         const lastDay = getDay(date);
         if (lastDay >= 1 && lastDay < 5) {
           for (let i = 0; i < 5 - lastDay; i++) {
-            this.calendarDays.push(this.nextMonthArr[i]);
+            calendarDays.push(nextMonthArr[i]);
           }
         }
       }
     }
-    this.calendarWeeks = this.splitArrayIntoWeeks(this.calendarDays);
+    this.calendarWeeks = this.splitArrayIntoWeeks(calendarDays);
 
   }
 
@@ -140,7 +125,6 @@ export class CalendarComponent implements OnInit {
     for (const dateObj of array) {
       week.push(dateObj);
 
-      // Проверяем, если текущий день оканчивает неделю или это последний день в массиве
       if (week.length === 5 || array.indexOf(dateObj) === array.length - 1) {
         weeks.push(week);
         week = [];
@@ -154,10 +138,6 @@ export class CalendarComponent implements OnInit {
     this.selectedMonth = increment > 0 ? addMonths(this.selectedMonth, 1) : subMonths(this.selectedMonth, 1);
     this.firstDaySelMonth = startOfMonth(this.selectedMonth);
     this.lastDaySelMonth = endOfMonth(this.selectedMonth);
-    this.firstDayPrevMonth = startOfMonth(subMonths(this.selectedMonth, 1));
-    this.lastDayPrevMonth = endOfMonth(subMonths(this.selectedMonth, 1));
-    this.firstDayNextMonth = startOfMonth(addMonths(this.selectedMonth, 1));
-    this.lastDayNextMonth = endOfMonth(addMonths(this.selectedMonth, 1));
     this.updateCalendar();
     this.selectedRowIndex = -1;
   }
@@ -208,5 +188,16 @@ export class CalendarComponent implements OnInit {
     const month = new Intl.DateTimeFormat('ru', { month: 'long' }).format(date);
     const year = date.getFullYear();
     return `${month.charAt(0).toUpperCase() + month.slice(1)} ${year}`;
+  }
+
+  generateMonthsArr(month: Date) {
+    const firstDay = startOfMonth(month);
+    const lastDay = endOfMonth(month);
+    const array: { day: Date; isCurrentMonth: boolean }[] = [];
+
+    for (let date = firstDay; date <= lastDay; date = addDays(date, 1)) {
+      array.unshift({day: date, isCurrentMonth: false });
+    }
+    return array;
   }
 }
