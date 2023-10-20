@@ -168,7 +168,7 @@ export class CalendarComponent implements OnInit {
       cell.style.backgroundColor = color;
 
       if (cell.classList.contains('other-month')) {
-        cell.style.color = '#b4b4b4';
+        cell.style.color = isSelected ? 'white' : '#b4b4b4';
       } else {
         cell.style.color = isSelected ? 'white' : 'black';
       }
