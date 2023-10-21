@@ -6,6 +6,10 @@
   font-size: 1.2rem;
 }
 
+.other-month {
+  color: #afafaf;
+}
+
 .change-month {
   border: 0;
   background: none;
@@ -87,4 +91,11 @@ tr:last-child td:last-child {
   border-bottom-right-radius: 15px;
 }
 
+.selected > td {
+  background-color: #FF6C6C;
+  color: white;
+}
 
+.hovered > td {
+  background-color: #eeeeee;
+}
