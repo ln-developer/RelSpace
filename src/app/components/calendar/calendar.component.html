@@ -8,7 +8,9 @@
     <tr>
       <th *ngFor="let day of ['Пн', 'Вт', 'Ср', 'Чт', 'Пт']">{{ day }}</th>
     </tr>
-    <tr class="calendar-week" *ngFor="let row of calendarWeeks; let i = index" [ngClass]="{selected: selectedRowIndex === i, hovered: hoveredRowIndex === i && selectedRowIndex !== i}" (click)="handleRowClick(i)" (mouseenter)="handleRowHover(i)" (mouseleave)="handleRowHover(null)">
+    <tr class="calendar-week" *ngFor="let row of calendarWeeks; let i = index"
+        [ngClass]="{selected: selectedRowIndex === i, hovered: hoveredRowIndex === i && selectedRowIndex !== i}"
+        (click)="handleRowClick(i)" (mouseenter)="handleRowHover(i)" (mouseleave)="handleRowHover(null)">
       <td *ngFor="let cell of row" [ngClass]="{'other-month': isOtherMonth(cell)}">{{ cell | date: 'dd' }}</td>
     </tr>
   </table>

@@ -10,7 +10,6 @@ import {
   subMonths
 } from 'date-fns';
 
-
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
@@ -40,7 +39,7 @@ export class CalendarComponent implements OnInit {
   ngAfterViewChecked() {
   }
 
-  isOtherMonth(day: Date){
+  isOtherMonth(day: Date) {
     return !(getMonth(day) === getMonth(this.selectedMonth));
   }
 
@@ -162,6 +161,4 @@ export class CalendarComponent implements OnInit {
     const year = date.getFullYear();
     return `${month.charAt(0).toUpperCase() + month.slice(1)} ${year}`;
   }
-
-
 }
