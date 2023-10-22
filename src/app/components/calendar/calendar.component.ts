@@ -108,7 +108,6 @@ export class CalendarComponent implements OnInit {
       }
     }
     this.calendarWeeks = this.splitArrayIntoWeeks(calendarDays);
-
   }
 
   splitArrayIntoWeeks(array: Date[]): Date[][] {
