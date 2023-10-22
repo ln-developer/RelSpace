@@ -36,9 +36,6 @@ export class CalendarComponent implements OnInit {
     this.findCurrentWeek();
   }
 
-  ngAfterViewChecked() {
-  }
-
   isOtherMonth(day: Date) {
     return !(getMonth(day) === getMonth(this.selectedMonth));
   }
@@ -118,14 +115,14 @@ export class CalendarComponent implements OnInit {
     const weeks: Date[][] = [];
     let week: Date[] = [];
 
-    for (const dateObj of array) {
-      week.push(dateObj);
+    array.forEach((date, index) => {
+      week.push(date);
 
-      if (week.length === 5 || array.indexOf(dateObj) === array.length - 1) {
+      if (week.length === 5 || index === array.length - 1) {
         weeks.push(week);
         week = [];
       }
-    }
+    });
 
     return weeks;
   }
