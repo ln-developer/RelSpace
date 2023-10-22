@@ -122,7 +122,6 @@ export class CalendarComponent implements OnInit {
         week = [];
       }
     });
-
     return weeks;
   }
 
