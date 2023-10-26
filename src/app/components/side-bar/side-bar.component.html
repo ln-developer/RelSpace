@@ -4,6 +4,7 @@
     <div class="avatar-container">
       <img [src]="imageUrl" class="avatar" alt="">
     </div>
-    <button class="engineer-name">{{ engineerName | titlecase }}</button>
+    <button class="engineer-name-button">{{ engineerName | titlecase }}</button>
+    <app-window-with-input class="window" [dynamicComponent]="dynamicComponent"></app-window-with-input>
   </div>
 </div>

@@ -1,6 +1,9 @@
-<div class="window-input">
-  <div class="content"></div>
-  <div class="input">
-
+<div class="window-with-input">
+  <div class="content">
+    <ng-container class="window" [ngComponentOutlet]="dynamicComponent"></ng-container>
+  </div>
+  <div class="input-wrapper">
+    <input>
+    <button (click)="addRelease">+</button>
   </div>
 </div>

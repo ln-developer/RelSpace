@@ -1,18 +1,20 @@
-.side-bar{
+.side-bar {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  width: 350px;
   align-items: center;
   background-color: white;
   box-shadow: 3px 0 10px #b0b0b0;
 }
 
 .wrapper {
+  -webkit-flex-grow: 1;
   flex-grow: 1;
   min-height: 0;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: space-around;
   align-items: center;
 }
 
@@ -20,10 +22,10 @@
   font-size: 1.7rem;
   font-weight: 600;
   text-align: center;
-  margin: 20px 0 20px;
+  margin: 20px 0;
 }
 
-.avatar-container{
+.avatar-container {
   max-height: 200px;
   max-width: 200px;
   margin: 5px;
@@ -37,27 +39,30 @@
   border-radius: 50%;
 }
 
-.engineer-name {
-  margin: 20px 5px;
+.engineer-name-button {
+  margin: 20px 5px 0;
   padding: 20px;
   border-radius: 50px;
   background-color: #84ADFD;
   font-size: 1.5rem;
   color: white;
+  cursor: pointer;
 }
 
-@media (max-width: 872px) {
-  .side-bar{
+.window{
+  max-width: 500px;
+}
+
+@media (max-width: 900px) {
+  .side-bar {
     height: 100%;
     width: 100vw;
     overflow-x: hidden;
   }
   .wrapper {
+    -webkit-flex-grow: 1;
     flex-grow: 1;
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
     align-items: center;
     background-color: white;
     box-shadow: 0 3px 10px #b0b0b0;
@@ -68,11 +73,10 @@
     text-align: center;
     margin-top: 10px;
   }
-  .avatar-container{
+  .avatar-container {
     display: none;
   }
-  .engineer-name {
-    margin: 0;
+  .engineer-name-button {
     padding: 10px;
     border-radius: 30px;
     background-color: #84ADFD;

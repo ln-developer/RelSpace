@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {
   addDays,
   addMonths,
   endOfMonth,
   getDate,
-  getDay, getMonth,
+  getDay, getMonth, getYear,
   isWeekend,
   startOfMonth, subDays,
   subMonths
@@ -26,6 +26,8 @@ export class CalendarComponent implements OnInit {
   lastDaySelMonth: Date = endOfMonth(this.selectedMonth);
   hoveredRowIndex: number | null = null;
 
+  @Output() dataEvent = new EventEmitter<object>();
+
   constructor() {
     this.weekDays = this.WEEK_DAYS;
   }
@@ -36,6 +38,7 @@ export class CalendarComponent implements OnInit {
 
   ngAfterViewInit() {
     this.findCurrentWeek();
+    this.sendData();
   }
 
   isOtherMonth(day: Date) {
@@ -150,5 +153,14 @@ export class CalendarComponent implements OnInit {
     const month = new Intl.DateTimeFormat('ru', {month: 'long'}).format(date);
     const year = date.getFullYear();
     return `${month.charAt(0).toUpperCase() + month.slice(1)} ${year}`;
+  }
+
+  sendData() {
+    const weekData = {
+      year: getYear(this.selectedMonth),
+      monthNumber: getMonth(this.selectedMonth) + 1,
+      weekIndex: this.selectedRowIndex,
+    };
+    this.dataEvent.emit(weekData);
   }
 }

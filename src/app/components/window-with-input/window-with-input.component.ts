@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 @Component({
   selector: 'app-window-with-input',
@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./window-with-input.component.css']
 })
 export class WindowWithInputComponent {
+  @Input() dynamicComponent: any | null = ['Релизов пока нет'];
 
+  addRelease(){
+
+  }
 }

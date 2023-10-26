@@ -1,6 +1,6 @@
 .home {
   display: grid;
-  grid-template-columns: minmax(100px, 1fr) minmax(500px, 3fr);
+  grid-template-columns: auto 1fr;
   grid-gap: 0;
   overflow-x: hidden;
   overflow-y: auto;
@@ -36,17 +36,20 @@
 }
 
 .calendar {
+  width: 100%;
   flex-grow: 1;
   padding: 0 20px 15px 20px;
   background-color: #EAF1FF;
 }
 
-@media (max-width: 872px) {
+@media (max-width: 900px) {
   .home {
     display: flex;
     flex-direction: column;
+    height: 100vh;
   }
   .side-bar {
+    flex-grow: 1;
     order: 2;
   }
   .home-wrapper {

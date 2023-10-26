@@ -1,7 +1,7 @@
 <div class="calendar">
   <div class="calendar-header">
     <button class="change-month left-arrow" (click)="changeMonth(-1)"><</button>
-    <div class="current-month">{{ formatMonthName(selectedMonth) }}</div>
+    <div class="selected-month">{{ formatMonthName(selectedMonth) }}</div>
     <button class="change-month right-arrow" (click)="changeMonth(1)">></button>
   </div>
   <table class="calendar-table">
@@ -10,7 +10,7 @@
     </tr>
     <tr class="calendar-week" *ngFor="let row of calendarWeeks; let i = index"
         [ngClass]="{selected: selectedRowIndex === i, hovered: hoveredRowIndex === i && selectedRowIndex !== i}"
-        (click)="handleRowClick(i)" (mouseenter)="handleRowHover(i)" (mouseleave)="handleRowHover(null)">
+        (click)="handleRowClick(i); sendData();" (mouseenter)="handleRowHover(i)" (mouseleave)="handleRowHover(null)">
       <td *ngFor="let cell of row" [ngClass]="{'other-month': isOtherMonth(cell)}">{{ cell | date: 'dd' }}</td>
     </tr>
   </table>

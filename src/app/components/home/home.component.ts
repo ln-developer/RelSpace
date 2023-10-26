@@ -8,4 +8,10 @@ import { Component } from '@angular/core';
 export class HomeComponent {
   releaseNumber: string = 'Release XXX3';
   releaseStatus: string = 'Установка на ПРОД';
+  weekData: object = {};
+
+  receiveWeekData(weekData: Object) {
+    this.weekData = weekData;
+    console.log(weekData);
+  }
 }

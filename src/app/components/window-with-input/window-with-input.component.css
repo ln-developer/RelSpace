@@ -1,0 +1,43 @@
+.window-with-input{
+  display: flex;
+  flex-direction: column;
+  max-height: 200px;
+  max-width: 100%;
+  border-radius: 20px;
+  box-shadow: #b0b0b0 0 0 15px;
+  position: relative;
+  margin: 20px 20px 0;
+}
+
+.content {
+  flex: 1 1 auto;
+  max-width: 100%;
+  padding: 5px 10px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.input-wrapper{
+  display: flex;
+  width: 100%;
+  border-radius: 0 0 20px 20px;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+  box-shadow: #b0b0b0 0 0 15px;
+}
+
+.input-wrapper input{
+  flex-grow: 1;
+  font-size: 1rem;
+  margin: 5px 10px;
+}
+
+.input-wrapper button{
+  flex-grow: 1;
+  background-color: #83FE97;
+  border-radius: 0 0 20px 0;
+  font-size: 1.5rem;
+  color: white;
+  max-width: 50px;
+}
