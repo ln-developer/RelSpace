@@ -6,7 +6,7 @@ import {
   getDate,
   getDay, getMonth,
   isWeekend,
-  startOfMonth,
+  startOfMonth, subDays,
   subMonths
 } from 'date-fns';
 
@@ -17,7 +17,8 @@ import {
 })
 
 export class CalendarComponent implements OnInit {
-
+  private readonly WEEK_DAYS: string[] = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт'];
+  public weekDays: string[];
   selectedMonth: Date = new Date();
   selectedRowIndex: number | null = null;
   calendarWeeks: Date[][] = [];
@@ -26,6 +27,7 @@ export class CalendarComponent implements OnInit {
   hoveredRowIndex: number | null = null;
 
   constructor() {
+    this.weekDays = this.WEEK_DAYS;
   }
 
   ngOnInit(): void {
@@ -41,32 +43,25 @@ export class CalendarComponent implements OnInit {
   }
 
   findCurrentWeek() {
-    let dayOfMonth = getDate(this.selectedMonth);
-    let foundRowIndex = -1;
-
     for (let cellNum = 0; cellNum < 2; cellNum++) {
-      document.querySelectorAll('.calendar-week').forEach((row, index) => {
-        row.querySelectorAll('td').forEach((cell) => {
-          const cellContent = cell.textContent?.trim();
-          if (cellContent) {
-            const cellDay = parseInt(cellContent, 10);
+      const currentDay = new Date().getDate();
+      let foundRowIndex = this.selectedRowIndex;
 
-            if (!isNaN(cellDay) && cellDay === dayOfMonth) {
-              foundRowIndex = index;
-              return;
-            }
-          }
-        });
-      });
+      for (let i = 0; i < this.calendarWeeks.length; i++) {
+        const week = this.calendarWeeks[i];
+        for (let j = 0; j < week.length; j++) {
+          const cellDate = week[j];
+          const cellDay = getDate(cellDate);
 
-      if (foundRowIndex >= 0) {
-        this.selectedRowIndex = foundRowIndex;
-        break;
-      } else {
-        dayOfMonth--;
+          if (cellDay === currentDay) {
+            foundRowIndex = i;
+            break;
+          } else subDays(currentDay, 1);
+        }
       }
+      this.selectedRowIndex = foundRowIndex;
+      console.log(foundRowIndex);
     }
-    console.log(this.selectedRowIndex);
   }
 
   handleRowHover(i: number | null) {

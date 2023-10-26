@@ -6,7 +6,7 @@
   </div>
   <table class="calendar-table">
     <tr>
-      <th *ngFor="let day of ['Пн', 'Вт', 'Ср', 'Чт', 'Пт']">{{ day }}</th>
+      <th *ngFor="let day of weekDays">{{ day }}</th>
     </tr>
     <tr class="calendar-week" *ngFor="let row of calendarWeeks; let i = index"
         [ngClass]="{selected: selectedRowIndex === i, hovered: hoveredRowIndex === i && selectedRowIndex !== i}"

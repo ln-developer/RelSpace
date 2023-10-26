@@ -3,7 +3,7 @@
 }
 
 .current-month{
-  font-size: 1.2rem;
+  font-size: 1.5rem;
 }
 
 .other-month {
@@ -19,12 +19,32 @@
 
 .right-arrow{
   position: absolute;
-  margin-left: 11.25rem;
+  margin-left: 13rem;
+  padding: 5px;
+}
+
+.right-arrow:hover{
+  border: 1px #b0b0b0 solid;
+  border-radius: 5px;
 }
 
 .left-arrow{
   position: absolute;
-  margin-right: 11.25rem;
+  margin-right: 13rem;
+  padding: 5px;
+}
+
+.left-arrow:hover{
+  border: 1px #b0b0b0 solid;
+  border-radius: 5px;
+}
+
+.calendar-table {
+  margin: 0 auto;
+  border: 1px solid #dadada;
+  border-radius: 16px;
+  border-spacing: 0;
+  width: 100%;
 }
 
 .calendar-header {
@@ -33,31 +53,25 @@
   align-items: center;
   padding: 10px;
   position: relative;
-}
-
-.calendar-table {
-  margin: 0 auto;
-  border: 1px solid #dadada;
-  border-radius: 16px;
-  border-spacing: 0;
+  width: 100%;
 }
 
 th, td {
   flex-grow: 1;
   border: 1px solid #dadada;
   width: 20dvmin;
-  height: 10dvmin;
+  height: 12.5dvmin;
   text-align: center;
   background-color: white;
 }
 
 th {
-  font-size: 1.5rem;
+  font-size: 3.5dvmin;
   font-weight: 600;
 }
 
 td {
-  font-size: 1.2rem;
+  font-size: 3dvmin;
 }
 
 /* Скругление углов для первой ячейки заголовка */
@@ -97,4 +111,28 @@ tr:last-child td:last-child {
 
 .hovered > td {
   background-color: #eeeeee;
+}
+
+@media (max-width: 872px) {
+  .current-month{
+    font-size: 1.2rem;
+  }
+
+  .right-arrow{
+    position: absolute;
+    margin-left: 11rem;
+  }
+
+  .left-arrow{
+    position: absolute;
+    margin-right: 11rem;
+  }
+
+  th {
+    font-size: 1.5rem;
+  }
+
+  td {
+    font-size: 1.2rem;
+  }
 }

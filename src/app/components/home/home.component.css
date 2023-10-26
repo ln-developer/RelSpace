@@ -1,0 +1,58 @@
+.home {
+  display: grid;
+  grid-template-columns: minmax(100px, 1fr) minmax(500px, 3fr);
+  grid-gap: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.side-bar {
+  z-index: 1;
+}
+
+.home-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.home-header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  min-height: 80px;
+  background-color: white;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.home-header p {
+  margin: 10px;
+}
+
+.release-info {
+  color: #6e6e6e;
+  margin: 10px;
+  text-align: center;
+}
+
+.calendar {
+  flex-grow: 1;
+  padding: 0 20px 15px 20px;
+  background-color: #EAF1FF;
+}
+
+@media (max-width: 872px) {
+  .home {
+    display: flex;
+    flex-direction: column;
+  }
+  .side-bar {
+    order: 2;
+  }
+  .home-wrapper {
+    order: 1;
+  }
+  .home-header {
+    font-size: 1rem;
+  }
+}
