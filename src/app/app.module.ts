@@ -8,6 +8,7 @@ import { WindowWithInputComponent } from './components/window-with-input/window-
 import {RouterOutlet} from "@angular/router";
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
+import { ReleaseListComponent } from './components/release-list/release-list.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { HttpClientModule } from '@angular/common/http';
     CalendarComponent,
     SideBarComponent,
     HomeComponent,
-    WindowWithInputComponent
+    WindowWithInputComponent,
+    ReleaseListComponent
   ],
     imports: [
         BrowserModule,

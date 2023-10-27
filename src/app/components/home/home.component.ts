@@ -13,10 +13,15 @@ export class HomeComponent implements OnInit {
   releaseStatus: string = 'Установка на ПРОД';
   weekData: object = {};
 
+  releaseList: string[] = ['Release-XXX1', 'Release-XXX2', 'Release-XXX3', 'Release-XXX4', 'Release-XXX5', 'Release-XXX6'];
+
   constructor(private dataService: DataService) {
   }
-
   ngOnInit() {
+
+  }
+
+  ngAfterViewInit(){
     this.dataService.getData().subscribe((result) => {
       this.releaseData = result;
     });

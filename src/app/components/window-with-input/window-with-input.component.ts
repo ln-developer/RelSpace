@@ -6,7 +6,7 @@ import {Component, Input} from '@angular/core';
   styleUrls: ['./window-with-input.component.css']
 })
 export class WindowWithInputComponent {
-  @Input() dynamicComponent: any | null = ['Релизов пока нет'];
+  @Input() dynamicComponent: any | null;
 
   addEelement(){
 

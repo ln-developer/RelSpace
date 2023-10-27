@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ReleaseListComponent } from '../release-list/release-list.component'
 @Component({
   selector: 'app-side-bar',
   templateUrl: './side-bar.component.html',
@@ -7,5 +8,5 @@ import { Component } from '@angular/core';
 export class SideBarComponent {
   imageUrl = './assets/default-avatar.png';
   engineerName: string = 'Василий Пупкин';
-  dynamicComponent = '';
+  dynamicComponent = ReleaseListComponent;
 }

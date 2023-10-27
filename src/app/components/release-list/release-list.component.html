@@ -1,0 +1,12 @@
+<div class="release-list">
+  <ul>
+    <li *ngFor="let release of releaseList; let i = index"
+        [ngClass]="{selected: selectedRowIndex === i, hovered: hoveredRowIndex === i && selectedRowIndex !== i}"
+        (click)="handleRowClick(i);"
+        (mouseenter)="handleRowHover(i)"
+        (mouseleave)="handleRowHover(null)">
+      {{ release }}
+      <button (click)="deleteElement()">x</button>
+    </li>
+  </ul>
+</div>

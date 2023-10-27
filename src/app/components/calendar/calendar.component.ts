@@ -20,9 +20,9 @@ export class CalendarComponent implements OnInit {
   protected readonly WEEK_DAYS:string[] = WEEK_DAYS;
   selectedMonth: Date = new Date();
   selectedRowIndex: number | null = null;
+  hoveredRowIndex: number | null = null;
   firstDaySelMonth: Date = startOfMonth(this.selectedMonth);
   lastDaySelMonth: Date = endOfMonth(this.selectedMonth);
-  hoveredRowIndex: number | null = null;
   calendarWeeks: Date[][] = [];
 
   @Output() dataEvent = new EventEmitter<object>();
