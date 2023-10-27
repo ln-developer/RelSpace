@@ -21,7 +21,9 @@
     "@angular/router": "^16.1.0",
     "date-fns": "^2.30.0",
     "eslint": "^8.51.0",
+    "http": "^0.0.1-security",
     "moment": "^2.29.4",
+    "npm": "^10.2.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"

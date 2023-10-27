@@ -1,11 +1,11 @@
 <div class="home">
   <app-side-bar class="side-bar"></app-side-bar>
-  <div class="home-wrapper">
+  <div class="home-body">
     <div class="home-header">
       <p>Сейчас:</p>
       <div class="release-info">{{releaseNumber}}</div>
       <div class="release-info">{{releaseStatus}}</div>
     </div>
-    <app-calendar (dataEvent)="receiveWeekData($event)" class="calendar"></app-calendar>
+    <app-calendar (dataEvent)="receiveWeekData($event)"></app-calendar>
   </div>
 </div>

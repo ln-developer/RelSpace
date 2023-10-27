@@ -6,11 +6,13 @@
   </div>
   <table class="calendar-table">
     <tr>
-      <th *ngFor="let day of weekDays">{{ day }}</th>
+      <th *ngFor="let day of WEEK_DAYS">{{ day }}</th>
     </tr>
     <tr class="calendar-week" *ngFor="let row of calendarWeeks; let i = index"
         [ngClass]="{selected: selectedRowIndex === i, hovered: hoveredRowIndex === i && selectedRowIndex !== i}"
-        (click)="handleRowClick(i); sendData();" (mouseenter)="handleRowHover(i)" (mouseleave)="handleRowHover(null)">
+        (click)="handleRowClick(i); sendData();"
+        (mouseenter)="handleRowHover(i)"
+        (mouseleave)="handleRowHover(null)">
       <td *ngFor="let cell of row" [ngClass]="{'other-month': isOtherMonth(cell)}">{{ cell | date: 'dd' }}</td>
     </tr>
   </table>

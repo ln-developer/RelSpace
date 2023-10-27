@@ -1,44 +1,43 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {WeeksGeneratorService} from './weeks-generator.service'
 import {
-  addDays,
   addMonths,
   endOfMonth,
   getDate,
-  getDay, getMonth, getYear,
-  isWeekend,
+  getMonth, getYear,
   startOfMonth, subDays,
   subMonths
 } from 'date-fns';
-
+import { WEEK_DAYS } from '../../constants';
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css'],
+  providers: [WeeksGeneratorService]
 })
 
 export class CalendarComponent implements OnInit {
-  private readonly WEEK_DAYS: string[] = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт'];
-  public weekDays: string[];
+  protected readonly WEEK_DAYS:string[] = WEEK_DAYS;
   selectedMonth: Date = new Date();
   selectedRowIndex: number | null = null;
-  calendarWeeks: Date[][] = [];
   firstDaySelMonth: Date = startOfMonth(this.selectedMonth);
   lastDaySelMonth: Date = endOfMonth(this.selectedMonth);
   hoveredRowIndex: number | null = null;
+  calendarWeeks: Date[][] = [];
 
   @Output() dataEvent = new EventEmitter<object>();
 
-  constructor() {
-    this.weekDays = this.WEEK_DAYS;
+  constructor(private weeksGeneratorService: WeeksGeneratorService) {
+
   }
 
   ngOnInit(): void {
     this.updateCalendar();
+    this.sendData();
   }
 
   ngAfterViewInit() {
     this.findCurrentWeek();
-    this.sendData();
   }
 
   isOtherMonth(day: Date) {
@@ -76,69 +75,8 @@ export class CalendarComponent implements OnInit {
     console.log(index);
   }
 
-  updateCalendar() {
-    const prevMonthArr = this.generateMonthsArr(subMonths(this.selectedMonth, 1));
-    const nextMonthArr = this.generateMonthsArr(addMonths(this.selectedMonth, 1));
-    let calendarDays: Date[] = [];
-
-    for (let date = this.firstDaySelMonth; date <= this.lastDaySelMonth; date = addDays(date, 1)) {
-
-      if (date === this.firstDaySelMonth) {
-        const firstDay = getDay(date);
-        if (firstDay > 1 && firstDay <= 5) {
-          for (let i = 0; i < 5 - (6 - firstDay); i++) {
-            calendarDays.unshift(prevMonthArr[i]);
-          }
-        }
-      }
-
-      if (!isWeekend(date)) {
-        calendarDays.push(date);
-      }
-
-      if (date.setHours(0, 0, 0, 0) === this.lastDaySelMonth.setHours(0, 0, 0, 0)) {
-        const lastDay = getDay(date);
-        if (lastDay >= 1 && lastDay < 5) {
-          for (let i = 0; i < 5 - lastDay; i++) {
-            calendarDays.push(nextMonthArr[i]);
-          }
-        }
-      }
-    }
-    this.calendarWeeks = this.splitArrayIntoWeeks(calendarDays);
-  }
-
-  splitArrayIntoWeeks(array: Date[]): Date[][] {
-    const weeks: Date[][] = [];
-    let week: Date[] = [];
-
-    array.forEach((date, index) => {
-      week.push(date);
-
-      if (week.length === 5 || index === array.length - 1) {
-        weeks.push(week);
-        week = [];
-      }
-    });
-    return weeks;
-  }
-
-  generateMonthsArr(month: Date) {
-
-    const firstDay = startOfMonth(month);
-    const lastDay = endOfMonth(month);
-    const monthDays: Date[] = [];
-
-    if (month < this.selectedMonth) {
-      for (let date: Date = firstDay; date <= lastDay; date = addDays(date, 1)) {
-        monthDays.unshift(date);
-      }
-    } else {
-      for (let date: Date = firstDay; date <= lastDay; date = addDays(date, 1)) {
-        monthDays.push(date);
-      }
-    }
-    return monthDays;
+  updateCalendar(){
+   this.calendarWeeks = this.weeksGeneratorService.setDates(this.selectedMonth, this.firstDaySelMonth, this.lastDaySelMonth);
   }
 
   changeMonth(increment: number) {

@@ -8,7 +8,7 @@ import {Component, Input} from '@angular/core';
 export class WindowWithInputComponent {
   @Input() dynamicComponent: any | null = ['Релизов пока нет'];
 
-  addRelease(){
+  addEelement(){
 
   }
 }

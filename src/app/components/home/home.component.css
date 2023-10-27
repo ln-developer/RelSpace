@@ -10,12 +10,15 @@
   z-index: 1;
 }
 
-.home-wrapper {
+.home-body {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  background-color: #EAF1FF;
 }
 
 .home-header {
+  width: 100%;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -35,11 +38,9 @@
   text-align: center;
 }
 
-.calendar {
-  width: 100%;
+app-calendar {
   flex-grow: 1;
   padding: 0 20px 15px 20px;
-  background-color: #EAF1FF;
 }
 
 @media (max-width: 900px) {
@@ -52,7 +53,7 @@
     flex-grow: 1;
     order: 2;
   }
-  .home-wrapper {
+  .home-body {
     order: 1;
   }
   .home-header {
