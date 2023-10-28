@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {HomeComponent} from '../home/home.component'
 
 @Component({
@@ -7,11 +7,15 @@ import {HomeComponent} from '../home/home.component'
   styleUrls: ['./release-list.component.css']
 })
 export class ReleaseListComponent implements OnInit {
-  releaseList: string[] = ['Релизов пока нет'];
+  @Input() releaseList: string[] | undefined;
   selectedRowIndex: number | null = null;
   hoveredRowIndex: number | null = null;
 
   constructor(private homeComponent: HomeComponent) {
+    this.homeComponent.releaseListChanged.subscribe((newReleaseList: string[]) => {
+      this.releaseList = newReleaseList;
+      console.log(`releaseList обновлен: ${JSON.stringify(this.releaseList)}`);
+    });
   }
 
   ngOnInit() {
@@ -23,12 +27,6 @@ export class ReleaseListComponent implements OnInit {
 
   ngOnChanges(){
     this.releaseList = this.homeComponent.releaseList;
-  }
-
-  setDefault(){
-    if (this.releaseList === null) {
-      this.releaseList = ['Релизов пока нет']
-    }
   }
 
   handleRowHover(i: number | null) {

@@ -8,7 +8,7 @@ import {
   startOfMonth, subDays,
   subMonths
 } from 'date-fns';
-import { WEEK_DAYS } from '../../constants';
+import { WEEK_DAYS } from '../../_constants/constants';
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
@@ -100,5 +100,6 @@ export class CalendarComponent implements OnInit {
       weekIndex: this.selectedRowIndex,
     };
     this.dataEvent.emit(weekData);
+    console.log(`WeekData отправленная с calendar component: ${JSON.stringify(weekData)}`);
   }
 }

@@ -4,7 +4,8 @@
     <div class="avatar-container">
       <img [src]="imageUrl" class="avatar" alt="">
     </div>
-    <button class="engineer-name-button">{{ engineerName | titlecase }}</button>
+    <button class="engineer-name-button" (click)="chooseEngineer">{{ engineerName | titlecase }}</button>
     <app-window-with-input [dynamicComponent]="dynamicComponent"></app-window-with-input>
+    <button class="button-more" (click)="releaseDetails">Подробнее</button>
   </div>
 </div>

@@ -1,5 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {DataService} from '../../services/data-service.service';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import { DataService } from '../../services/data-service.service';
+import { ReleaseData } from '../../_models/response.model';
+
 
 @Component({
   selector: 'app-home',
@@ -8,28 +10,35 @@ import {DataService} from '../../services/data-service.service';
 })
 export class HomeComponent implements OnInit {
 
-  releaseData: object = {};
-  releaseNumber: string = 'Release XXX3';
-  releaseStatus: string = 'Установка на ПРОД';
-  weekData: object = {};
+  @Output() releaseListChanged = new EventEmitter<string[]>()
 
-  releaseList: string[] = ['Release-XXX1', 'Release-XXX2', 'Release-XXX3', 'Release-XXX4', 'Release-XXX5', 'Release-XXX6'];
+  releaseList: string[] = [];
+  releaseNumber: string = 'Release-XXXX';
+  releaseStatus: string = 'Здесь будет статус в реальном времени';
+  weekData: object = {};
 
   constructor(private dataService: DataService) {
   }
+
   ngOnInit() {
-
   }
 
-  ngAfterViewInit(){
-    this.dataService.getData().subscribe((result) => {
-      this.releaseData = result;
-    });
+  ngAfterViewInit() {
   }
 
-  receiveWeekData(weekData: Object) {
+  receiveWeekData(weekData: object) {
     this.weekData = weekData;
-    console.log(weekData);
+    this.dataService.selectedWeek(weekData).subscribe({
+      next: (response: ReleaseData) => {
+        response.releaseList.sort((a: string, b: string) => a.localeCompare(b));
+        this.releaseList = response.releaseList;
+        this.releaseListChanged.emit(this.releaseList);
+        console.log(`Ответ от сервера: ${JSON.stringify(response)}`)
+      },
+      error: (err) => {
+        console.log('Error:', err);
+      }
+    });
+    console.log(`WeekData отправленная на сервер: ${weekData}`);
   }
-
 }

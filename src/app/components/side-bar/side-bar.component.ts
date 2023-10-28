@@ -9,4 +9,12 @@ export class SideBarComponent {
   imageUrl = './assets/default-avatar.png';
   engineerName: string = 'Василий Пупкин';
   dynamicComponent = ReleaseListComponent;
+
+  chooseEngineer(){
+
+  }
+
+  releaseDetails(){
+
+  }
 }
