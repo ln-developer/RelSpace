@@ -9,6 +9,7 @@ import {
   subMonths
 } from 'date-fns';
 import { WEEK_DAYS } from '../../_constants/constants';
+import {WeekData} from "../../_models/request.model";
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
@@ -25,7 +26,7 @@ export class CalendarComponent implements OnInit {
   lastDaySelMonth: Date = endOfMonth(this.selectedMonth);
   calendarWeeks: Date[][] = [];
 
-  @Output() dataEvent = new EventEmitter<object>();
+  @Output() dataEvent = new EventEmitter<WeekData>();
 
   constructor(private weeksGeneratorService: WeeksGeneratorService) {
 
@@ -33,11 +34,11 @@ export class CalendarComponent implements OnInit {
 
   ngOnInit(): void {
     this.updateCalendar();
+    this.findCurrentWeek();
     this.sendData();
   }
 
   ngAfterViewInit() {
-    this.findCurrentWeek();
   }
 
   isOtherMonth(day: Date) {
@@ -45,8 +46,8 @@ export class CalendarComponent implements OnInit {
   }
 
   findCurrentWeek() {
+    const currentDay = new Date().getDate();
     for (let cellNum = 0; cellNum < 2; cellNum++) {
-      const currentDay = new Date().getDate();
       let foundRowIndex = this.selectedRowIndex;
 
       for (let i = 0; i < this.calendarWeeks.length; i++) {
@@ -66,8 +67,8 @@ export class CalendarComponent implements OnInit {
     }
   }
 
-  handleRowHover(i: number | null) {
-    this.hoveredRowIndex = i;
+  handleRowHover(index: number | null) {
+    this.hoveredRowIndex = index;
   }
 
   handleRowClick(index: number) {
@@ -100,6 +101,5 @@ export class CalendarComponent implements OnInit {
       weekIndex: this.selectedRowIndex,
     };
     this.dataEvent.emit(weekData);
-    console.log(`WeekData отправленная с calendar component: ${JSON.stringify(weekData)}`);
   }
 }

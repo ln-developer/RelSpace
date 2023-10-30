@@ -8,10 +8,10 @@
     <tr>
       <th *ngFor="let day of WEEK_DAYS">{{ day }}</th>
     </tr>
-    <tr class="calendar-week" *ngFor="let row of calendarWeeks; let i = index"
-        [ngClass]="{selected: selectedRowIndex === i, hovered: hoveredRowIndex === i && selectedRowIndex !== i}"
-        (click)="handleRowClick(i); sendData();"
-        (mouseenter)="handleRowHover(i)"
+    <tr class="calendar-week" *ngFor="let row of calendarWeeks; let index = index"
+        [ngClass]="{selected: selectedRowIndex === index, hovered: hoveredRowIndex === index && selectedRowIndex !== index}"
+        (click)="handleRowClick(index); sendData();"
+        (mouseenter)="handleRowHover(index)"
         (mouseleave)="handleRowHover(null)">
       <td *ngFor="let cell of row" [ngClass]="{'other-month': isOtherMonth(cell)}">{{ cell | date: 'dd' }}</td>
     </tr>

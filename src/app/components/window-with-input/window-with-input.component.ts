@@ -1,4 +1,5 @@
 import {Component, Input} from '@angular/core';
+import {HomeComponent} from "../home/home.component";
 
 @Component({
   selector: 'app-window-with-input',
@@ -6,7 +7,14 @@ import {Component, Input} from '@angular/core';
   styleUrls: ['./window-with-input.component.css']
 })
 export class WindowWithInputComponent {
-  @Input() dynamicComponent: any | null;
+  @Input() contentComponent: any | null;
+
+  constructor(private homeComponent: HomeComponent) {
+    this.homeComponent.sendContentComponent.subscribe((newContentComponent: string[]) => {
+      this.contentComponent = newContentComponent;
+      console.log(`contentComponent обновлен: ${JSON.stringify(this.contentComponent)}`);
+    });
+  }
 
   addEelement(){
 
