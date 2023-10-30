@@ -5,7 +5,12 @@
       <img [src]="imageUrl" class="avatar" alt="">
     </div>
     <button class="engineer-name-button" (click)="chooseEngineer">{{ engineerName | titlecase }}</button>
-    <app-window-with-input [dynamicComponent]="dynamicComponent"></app-window-with-input>
-    <button class="button-more" (click)="releaseDetails">Подробнее</button>
+    <app-window-with-input [contentComponent]="contentComponent"></app-window-with-input>
+    <div class="links">
+      <div class="circle"></div>
+      <div class="circle"></div>
+      <div class="circle"></div>
+    </div>
+    <button class="more-btn" (click)="releaseDetails">Подробнее</button>
   </div>
 </div>

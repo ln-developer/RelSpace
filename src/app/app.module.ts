@@ -9,6 +9,7 @@ import {RouterOutlet} from "@angular/router";
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ReleaseListComponent } from './components/release-list/release-list.component';
+import { NullContentComponent } from './components/null-content/null-content.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { ReleaseListComponent } from './components/release-list/release-list.com
     SideBarComponent,
     HomeComponent,
     WindowWithInputComponent,
-    ReleaseListComponent
+    ReleaseListComponent,
+    NullContentComponent
   ],
     imports: [
         BrowserModule,

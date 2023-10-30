@@ -28,7 +28,6 @@
 .avatar-container {
   max-height: 200px;
   max-width: 200px;
-  margin: 5px;
 }
 
 .avatar {
@@ -51,25 +50,42 @@
 
 app-window-with-input{
   max-width: 500px;
+  margin-bottom: 5px;
 }
 
-.button-more {
+.more-btn {
   background-color: #FF6C6C;
   color: white;
-  font-size: 1.5rem;
-  border-radius: 30px;
-  padding: 15px;
+  font-size: 1.8rem;
+  border-radius: 50px;
+  padding: 15px 5px;
   margin-bottom: 10px;
   transition: 0.2s ease-in-out;
+  width: 250px;
 }
 
-.button-more:hover{
+.more-btn:hover{
   box-shadow: #ff9d9d 0 0 15px;
 }
 
-.button-more:active{
+.more-btn:active{
   scale: 90%;
 }
+
+.links {
+  display: flex;
+  align-items: center;
+}
+
+.circle {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  background-color: #84ADFD;
+  cursor: pointer;
+  margin: 10px;
+}
+
 
 @media (max-width: 900px) {
   .side-bar {
@@ -101,8 +117,13 @@ app-window-with-input{
     font-size: 1rem;
     color: white;
   }
-
-  .button-more {
-    margin: 20px 0 10px;
+  app-window-with-input {
+    margin-bottom: 10px;
+  }
+  .more-btn {
+    margin: 10px 0 10px;
+    font-size: 1.5rem;
+    border-radius: 50px;
+    padding: 15px;
   }
 }
