@@ -1,9 +1,9 @@
 <div class="release-list">
   <ul>
-    <li *ngFor="let release of releaseList; let i = index"
-        [ngClass]="{selected: selectedRowIndex === i, hovered: hoveredRowIndex === i && selectedRowIndex !== i}"
-        (click)="handleRowClick(i);"
-        (mouseenter)="handleRowHover(i)"
+    <li *ngFor="let release of releaseList; let index = index"
+        [ngClass]="{selected: selectedRowIndex === index, hovered: hoveredRowIndex === index && selectedRowIndex !== index}"
+        (click)="handleRowClick(index);"
+        (mouseenter)="handleRowHover(index)"
         (mouseleave)="handleRowHover(null)">
       {{ release }}
       <button (click)="deleteElement()">

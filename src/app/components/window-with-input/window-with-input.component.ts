@@ -10,7 +10,7 @@ export class WindowWithInputComponent {
   @Input() contentComponent: any | null;
 
   constructor(private homeComponent: HomeComponent) {
-    this.homeComponent.sendContentComponent.subscribe((newContentComponent: string[]) => {
+    this.homeComponent.windowContentComponent.subscribe((newContentComponent: string[]) => {
       this.contentComponent = newContentComponent;
       console.log(`contentComponent обновлен: ${JSON.stringify(this.contentComponent)}`);
     });

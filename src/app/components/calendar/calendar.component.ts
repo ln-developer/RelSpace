@@ -3,13 +3,12 @@ import {WeeksGeneratorService} from './weeks-generator.service'
 import {
   addMonths,
   endOfMonth,
-  getDate,
   getMonth, getYear,
   startOfMonth, subDays,
   subMonths
 } from 'date-fns';
 import { WEEK_DAYS } from '../../_constants/constants';
-import {WeekData} from "../../_models/request.model";
+import {SelectedWeekData} from "../../_models/request.model";
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
@@ -18,6 +17,8 @@ import {WeekData} from "../../_models/request.model";
 })
 
 export class CalendarComponent implements OnInit {
+  @Output() selectedWeekData = new EventEmitter<SelectedWeekData>();
+
   protected readonly WEEK_DAYS:string[] = WEEK_DAYS;
   selectedMonth: Date = new Date();
   selectedRowIndex: number | null = null;
@@ -25,9 +26,6 @@ export class CalendarComponent implements OnInit {
   firstDaySelMonth: Date = startOfMonth(this.selectedMonth);
   lastDaySelMonth: Date = endOfMonth(this.selectedMonth);
   calendarWeeks: Date[][] = [];
-
-  @Output() dataEvent = new EventEmitter<WeekData>();
-
   constructor(private weeksGeneratorService: WeeksGeneratorService) {
 
   }
@@ -46,7 +44,7 @@ export class CalendarComponent implements OnInit {
   }
 
   findCurrentWeek() {
-    const currentDay = new Date().getDate();
+    const currentDate = new Date();
     for (let cellNum = 0; cellNum < 2; cellNum++) {
       let foundRowIndex = this.selectedRowIndex;
 
@@ -54,16 +52,15 @@ export class CalendarComponent implements OnInit {
         const week = this.calendarWeeks[i];
         for (let j = 0; j < week.length; j++) {
           const cellDate = week[j];
-          const cellDay = getDate(cellDate);
 
-          if (cellDay === currentDay) {
+          if (cellDate.setHours(0, 0, 0, 0) === currentDate.setHours(0, 0, 0, 0)) {
             foundRowIndex = i;
+            this.selectedRowIndex = foundRowIndex;
+            console.log(`ID текущей недели: ${foundRowIndex}`);
             break;
-          } else subDays(currentDay, 1);
+          } else subDays(currentDate, 1);
         }
       }
-      this.selectedRowIndex = foundRowIndex;
-      console.log(foundRowIndex);
     }
   }
 
@@ -73,7 +70,7 @@ export class CalendarComponent implements OnInit {
 
   handleRowClick(index: number) {
     this.selectedRowIndex = index;
-    console.log(index);
+    console.log(`ID выбранной недели: ${index}`);
   }
 
   updateCalendar(){
@@ -95,11 +92,11 @@ export class CalendarComponent implements OnInit {
   }
 
   sendData() {
-    const weekData = {
+    const selectedWeekData = {
       year: getYear(this.selectedMonth),
       monthNumber: getMonth(this.selectedMonth) + 1,
       weekIndex: this.selectedRowIndex,
     };
-    this.dataEvent.emit(weekData);
+    this.selectedWeekData.emit(selectedWeekData);
   }
 }
