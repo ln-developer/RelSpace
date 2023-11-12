@@ -1,7 +1,10 @@
+import {ReleaseInfo} from './data.model';
+
 export interface ReleaseDataResponse {
-  releaseList: string[];
+  releaseList: ReleaseInfo[];
 }
 
-export interface DeleteReleaseResponse {
+export interface ModifyReleaseListResponse {
   message: string;
+  weekData: object;
 }

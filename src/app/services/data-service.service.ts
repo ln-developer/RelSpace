@@ -3,8 +3,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../environments/environment';
-import {DeleteReleaseResponse, ReleaseDataResponse} from '../_models/response.model';
-import {DeletingReleaseInfo, SelectedWeekData} from "../_models/request.model";
+import {ModifyReleaseListResponse, ReleaseDataResponse} from '../_models/response.model';
+import {AddingReleaseInfo, DeletingReleaseInfo, SelectedWeekData} from '../_models/request.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -23,13 +23,23 @@ export class DataService {
     );
   };
 
-  deleteElement(deletingReleaseInfo: DeletingReleaseInfo): Observable<DeleteReleaseResponse> {
-      return this.http.post<DeleteReleaseResponse>(`${this.serverUrl}/deleteRelease`, deletingReleaseInfo).pipe(
+  deleteElement(deletingReleaseInfo: DeletingReleaseInfo): Observable<ModifyReleaseListResponse> {
+      return this.http.post<ModifyReleaseListResponse>(`${this.serverUrl}/deleteRelease`, deletingReleaseInfo).pipe(
           catchError((error: HttpErrorResponse) => {
               const errorMessage = 'Ошибка отправки данных: ' + error.message;
               alert(errorMessage);
               return throwError(() => new Error(errorMessage));
             })
       );
+  };
+
+  addElement(addingReleaseInfo: AddingReleaseInfo): Observable<ModifyReleaseListResponse> {
+    return this.http.post<ModifyReleaseListResponse>(`${this.serverUrl}/addRelease`, addingReleaseInfo).pipe(
+      catchError((error: HttpErrorResponse) => {
+        const errorMessage = 'Ошибка отправки данных: ' + error.message;
+        alert(errorMessage);
+        return throwError(() => new Error(errorMessage));
+      })
+    );
   };
 }

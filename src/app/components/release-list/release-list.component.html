@@ -5,7 +5,7 @@
         (click)="handleRowClick(index);"
         (mouseenter)="handleRowHover(index)"
         (mouseleave)="handleRowHover(null)">
-      {{ release }}
+      {{ release.releaseTag }}-{{ release.releaseNumber }}
       <button (click)="deleteElement()">
         <span>x</span>
       </button>

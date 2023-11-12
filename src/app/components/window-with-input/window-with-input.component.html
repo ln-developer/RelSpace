@@ -3,7 +3,8 @@
     <ng-container [ngComponentOutlet]="contentComponent"></ng-container>
   </div>
   <div class="input-wrapper">
-    <input>
-    <button (click)="addEelement">+</button>
+    <button class="btn-switch" (click)="switchTag()" tabindex="1">{{releaseTag}}</button>
+    <input placeholder="Введите номер" [(ngModel)]="releaseNumber" type="text" (keydown.enter)="addElement()" appNumericInput tabindex="2">
+    <button class="btn-add" (click)="addElement()" tabindex="3">+</button>
   </div>
 </div>

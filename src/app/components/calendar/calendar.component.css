@@ -24,18 +24,13 @@
   padding: 5px;
 }
 
-.right-arrow:hover{
-  border: 1px #b0b0b0 solid;
-  border-radius: 5px;
-}
-
 .left-arrow{
   position: absolute;
   margin-right: 13rem;
   padding: 5px;
 }
 
-.left-arrow:hover{
+.arrow:hover, .arrow:focus{
   border: 1px #b0b0b0 solid;
   border-radius: 5px;
 }

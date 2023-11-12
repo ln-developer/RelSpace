@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, HostListener, OnInit, Output} from '@angular/core';
 import {WeeksGeneratorService} from './weeks-generator.service'
 import {
   addMonths,
@@ -7,7 +7,7 @@ import {
   startOfMonth, subDays,
   subMonths
 } from 'date-fns';
-import { WEEK_DAYS } from '../../_constants/constants';
+import {WEEK_DAYS} from '../../_constants/constants';
 import {SelectedWeekData} from "../../_models/request.model";
 @Component({
   selector: 'app-calendar',
@@ -44,22 +44,30 @@ export class CalendarComponent implements OnInit {
   }
 
   findCurrentWeek() {
-    const currentDate = new Date();
-    for (let cellNum = 0; cellNum < 2; cellNum++) {
+    let currentDate = new Date();
+    for (let cellNum = 0; cellNum <= 2; cellNum++) {
       let foundRowIndex = this.selectedRowIndex;
+      let weekFound = false;
 
       for (let i = 0; i < this.calendarWeeks.length; i++) {
         const week = this.calendarWeeks[i];
         for (let j = 0; j < week.length; j++) {
-          const cellDate = week[j];
+          const cellDate = new Date(week[j]); // Создаем отдельный объект даты, чтобы не менять исходные данные
 
           if (cellDate.setHours(0, 0, 0, 0) === currentDate.setHours(0, 0, 0, 0)) {
             foundRowIndex = i;
             this.selectedRowIndex = foundRowIndex;
             console.log(`ID текущей недели: ${foundRowIndex}`);
+            weekFound = true;
             break;
-          } else subDays(currentDate, 1);
+          }
         }
+        if (weekFound) {
+          break;
+        }
+      }
+      if (!weekFound) {
+        currentDate = subDays(currentDate, 1); // Если нужная неделя не найдена, отнимаем один день от currentDate
       }
     }
   }
@@ -98,5 +106,33 @@ export class CalendarComponent implements OnInit {
       weekIndex: this.selectedRowIndex,
     };
     this.selectedWeekData.emit(selectedWeekData);
+  }
+
+  switchWeek(increment: number) {
+    if (this.selectedRowIndex == null) {
+      if (increment < 0) this.selectedRowIndex = -1;
+      if (increment > 0) this.selectedRowIndex = 0;
+    }
+    const maxIndex = this.calendarWeeks[0].length - 1;
+    // @ts-ignore
+    this.selectedRowIndex = (this.selectedRowIndex - increment + maxIndex + 1) % (maxIndex + 1);
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (event.key === 'ArrowRight') {
+      this.changeMonth(1);
+    }
+    if (event.key === 'ArrowLeft') {
+      this.changeMonth(-1);
+    }
+    if (event.key === 'ArrowUp') {
+      this.switchWeek(1);
+      this.sendData();
+    }
+    if (event.key === 'ArrowDown') {
+      this.switchWeek(-1);
+      this.sendData();
+    }
   }
 }

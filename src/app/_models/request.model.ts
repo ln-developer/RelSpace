@@ -5,5 +5,10 @@ export interface SelectedWeekData {
 }
 
 export interface DeletingReleaseInfo {
-  releaseNumber: string;
+  releaseNumber: number | string;
+}
+
+export interface AddingReleaseInfo {
+  releaseNumber: number | string;
+  releaseTag: string;
 }

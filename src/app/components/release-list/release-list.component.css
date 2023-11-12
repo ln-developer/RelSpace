@@ -1,5 +1,8 @@
 .release-list {
   font-size: 1.3rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 167px;
 }
 
 li{
@@ -26,8 +29,8 @@ button{
 
 button span{
   position: absolute;
-  right: 28.5%;
-  bottom: 7%;
+  right: 31.75%;
+  bottom: 12.5%;
 }
 
 .selected{

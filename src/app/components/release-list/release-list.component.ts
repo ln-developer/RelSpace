@@ -1,8 +1,9 @@
-import {Component, Input, OnInit, ChangeDetectorRef} from '@angular/core';
+import {Component, Input, OnInit, ChangeDetectorRef, HostListener} from '@angular/core';
 import {HomeComponent} from '../home/home.component'
 import {DeletingReleaseInfo} from "../../_models/request.model";
 import {DataService} from '../../services/data-service.service';
-import {DeleteReleaseResponse} from "../../_models/response.model";
+import {ModifyReleaseListResponse} from "../../_models/response.model";
+import {ReleaseInfo} from '../../_models/data.model';
 
 @Component({
     selector: 'app-release-list',
@@ -10,8 +11,8 @@ import {DeleteReleaseResponse} from "../../_models/response.model";
     styleUrls: ['./release-list.component.css']
 })
 export class ReleaseListComponent implements OnInit {
-    @Input() releaseList: string[] | null = [];
-    deletingReleaseInfo: DeletingReleaseInfo = {releaseNumber: ''};
+    @Input() releaseList: ReleaseInfo[] = [];
+    deletingReleaseInfo: DeletingReleaseInfo = {releaseNumber: 0};
     selectedRowIndex: number | null = null;
     hoveredRowIndex: number | null = null;
 
@@ -45,7 +46,7 @@ export class ReleaseListComponent implements OnInit {
     }
 
     updateReleaseList(){
-        this.homeComponent.releaseListChanged.subscribe((newReleaseList: string[]) => {
+        this.homeComponent.releaseListChanged.subscribe((newReleaseList: ReleaseInfo[]) => {
             this.releaseList = newReleaseList;
             console.log(`releaseList обновлен: ${JSON.stringify(this.releaseList)}`);
         });
@@ -54,10 +55,10 @@ export class ReleaseListComponent implements OnInit {
     deleteElement() {
         if (this.selectedRowIndex !== null && this.releaseList !== null)
             this.deletingReleaseInfo = {
-                releaseNumber: this.releaseList[this.selectedRowIndex]
+                releaseNumber: this.releaseList[this.selectedRowIndex].releaseNumber
             };
         this.dataService.deleteElement(this.deletingReleaseInfo).subscribe({
-                next: (response: DeleteReleaseResponse) => {
+                next: (response: ModifyReleaseListResponse) => {
                     if (response.message === 'too much')
                         alert('Найдено слишком много записей');
                     else if (response.message === 'no result')
@@ -71,4 +72,12 @@ export class ReleaseListComponent implements OnInit {
         });
         console.log(`deletingReleaseInfo отправленное на сервер ${JSON.stringify(this.deletingReleaseInfo)}`);
     }
+
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (event.key === 'Delete') {
+      this.deleteElement();
+    }
+  }
+
 }

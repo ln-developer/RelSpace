@@ -72,6 +72,11 @@ app-window-with-input{
   scale: 90%;
 }
 
+.more-btn:focus{
+  font-weight: 600;
+  box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.16);
+}
+
 .links {
   display: flex;
   align-items: center;

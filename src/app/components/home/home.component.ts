@@ -4,6 +4,7 @@ import { ReleaseDataResponse } from '../../_models/response.model';
 import { ReleaseListComponent } from '../release-list/release-list.component'
 import {NullContentComponent} from "../null-content/null-content.component";
 import {SelectedWeekData} from "../../_models/request.model";
+import {ReleaseInfo} from '../../_models/data.model';
 
 
 @Component({
@@ -13,11 +14,11 @@ import {SelectedWeekData} from "../../_models/request.model";
 })
 export class HomeComponent implements OnInit {
 
-  @Output() releaseListChanged = new EventEmitter<string[]>()
+  @Output() releaseListChanged = new EventEmitter<object[]>()
 
   @Output() windowContentComponent = new EventEmitter<any>()
 
-  releaseList: string[] | null = [];
+  releaseList: ReleaseInfo[] = [];
   contentComponent: any = ReleaseListComponent;
   nullComponent: any = NullContentComponent;
   releaseNumber: string = 'Release-XXXX';
@@ -38,8 +39,7 @@ export class HomeComponent implements OnInit {
     this.selectedWeekData = weekData;
     this.dataService.selectedWeek(weekData).subscribe({
       next: (response: ReleaseDataResponse) => {
-        if (response.releaseList !== null) {
-          response.releaseList.sort((a: string, b: string) => a.localeCompare(b));
+        if (response.releaseList.length !== 0) {
           this.releaseList = response.releaseList;
           this.releaseListChanged.emit(this.releaseList);
           this.windowContentComponent.emit(this.contentComponent);

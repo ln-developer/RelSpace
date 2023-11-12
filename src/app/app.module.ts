@@ -10,6 +10,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ReleaseListComponent } from './components/release-list/release-list.component';
 import { NullContentComponent } from './components/null-content/null-content.component';
+import {FormsModule} from '@angular/forms';
+import { NumericInputDirective } from './directives/numeric-input/numeric-input.directive';
 
 @NgModule({
   declarations: [
@@ -19,14 +21,16 @@ import { NullContentComponent } from './components/null-content/null-content.com
     HomeComponent,
     WindowWithInputComponent,
     ReleaseListComponent,
-    NullContentComponent
+    NullContentComponent,
+    NumericInputDirective,
   ],
-    imports: [
-        BrowserModule,
-        RouterOutlet,
-        AppRoutingModule,
-        HttpClientModule
-    ],
+  imports: [
+    BrowserModule,
+    RouterOutlet,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })
