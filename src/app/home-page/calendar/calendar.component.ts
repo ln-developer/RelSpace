@@ -9,6 +9,8 @@ import {
 } from 'date-fns';
 import {WEEK_DAYS} from '../../_constants/constants';
 import {SelectedWeekData} from "../../_models/request.model";
+import {ReleaseDataManagementService} from '../services/releases-data-management/release-data-management.service'
+
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
@@ -26,14 +28,14 @@ export class CalendarComponent implements OnInit {
   firstDaySelMonth: Date = startOfMonth(this.selectedMonth);
   lastDaySelMonth: Date = endOfMonth(this.selectedMonth);
   calendarWeeks: Date[][] = [];
-  constructor(private weeksGeneratorService: WeeksGeneratorService) {
+  constructor(private weeksGeneratorService: WeeksGeneratorService, private releaseDataManagementService: ReleaseDataManagementService ) {
 
   }
 
   ngOnInit(): void {
     this.updateCalendar();
     this.findCurrentWeek();
-    this.sendData();
+    this.sendSelectedWeekData();
   }
 
   ngAfterViewInit() {
@@ -91,6 +93,7 @@ export class CalendarComponent implements OnInit {
     this.lastDaySelMonth = endOfMonth(this.selectedMonth);
     this.updateCalendar();
     this.selectedRowIndex = null;
+    this.sendSelectedWeekData();
   }
 
   formatMonthName(date: Date): string {
@@ -99,13 +102,13 @@ export class CalendarComponent implements OnInit {
     return `${month.charAt(0).toUpperCase() + month.slice(1)} ${year}`;
   }
 
-  sendData() {
+  sendSelectedWeekData() {
     const selectedWeekData = {
       year: getYear(this.selectedMonth),
       monthNumber: getMonth(this.selectedMonth) + 1,
       weekIndex: this.selectedRowIndex,
     };
-    this.selectedWeekData.emit(selectedWeekData);
+    this.releaseDataManagementService.receiveWeekData(selectedWeekData);
   }
 
   switchWeek(increment: number) {
@@ -128,11 +131,11 @@ export class CalendarComponent implements OnInit {
     }
     if (event.key === 'ArrowUp') {
       this.switchWeek(1);
-      this.sendData();
+      this.sendSelectedWeekData();
     }
     if (event.key === 'ArrowDown') {
       this.switchWeek(-1);
-      this.sendData();
+      this.sendSelectedWeekData();
     }
   }
 }
