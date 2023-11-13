@@ -1,5 +1,5 @@
 import {Component, EventEmitter, HostListener, OnInit, Output} from '@angular/core';
-import {WeeksGeneratorService} from './weeks-generator.service'
+import {WeeksGeneratorService} from './services/weeks-generator.service'
 import {
   addMonths,
   endOfMonth,

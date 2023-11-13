@@ -20,10 +20,6 @@ export class ReleaseDataManagementService {
   deletingReleaseInfo: DeletingReleaseInfo = {releaseNumber: 0};
   constructor(private requestService: RequestService) { }
 
-  getWindowComponent(){
-    return this.windowContentComponent;
-  }
-
   receiveWeekData(weekData: SelectedWeekData) {
     this.selectedWeekData = weekData;
     this.requestService.getReleasesForSelectedWeek(weekData).subscribe({
