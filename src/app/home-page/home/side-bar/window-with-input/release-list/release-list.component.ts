@@ -1,6 +1,6 @@
 import {Component, Input, OnInit, ChangeDetectorRef, HostListener} from '@angular/core';
-import {ReleaseInfo} from '../../_models/data.model';
-import {ReleaseDataManagementService} from '../services/releases-data-management/release-data-management.service';
+import {ReleaseInfo} from '../../../../../_models/data.model';
+import {ReleaseDataManagementService} from '../../../../services/releases-data-management/release-data-management.service';
 
 @Component({
   selector: 'app-release-list',

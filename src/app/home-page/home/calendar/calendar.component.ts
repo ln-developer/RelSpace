@@ -7,9 +7,9 @@ import {
   startOfMonth, subDays,
   subMonths
 } from 'date-fns';
-import {WEEK_DAYS} from '../../_constants/constants';
-import {SelectedWeekData} from "../../_models/request.model";
-import {ReleaseDataManagementService} from '../services/releases-data-management/release-data-management.service'
+import {WEEK_DAYS} from '../../../_constants/constants';
+import {SelectedWeekData} from "../../../_models/request.model";
+import {ReleaseDataManagementService} from '../../services/releases-data-management/release-data-management.service'
 
 @Component({
   selector: 'app-calendar',
