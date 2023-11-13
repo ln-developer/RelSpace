@@ -9,7 +9,7 @@ import {ReleaseDataManagementService} from '../services/releases-data-management
   styleUrls: ['./window-with-input.component.css']
 })
 export class WindowWithInputComponent {
-  contentComponent: any | null = this.releaseDataManagementService.getWindowComponent();
+  contentComponent: any | null;
 
   currentIndex = 0;
   releaseTag = TAGS[this.currentIndex];

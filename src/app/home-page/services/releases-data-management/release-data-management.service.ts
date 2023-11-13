@@ -1,7 +1,7 @@
 import {EventEmitter, Injectable, Output} from '@angular/core';
 import {AddingReleaseInfo, DeletingReleaseInfo, SelectedWeekData} from '../../../_models/request.model';
 import {ModifyReleaseListResponse, ReleaseDataResponse} from '../../../_models/response.model';
-import {RequestService} from '../../../shared/request/request-service.service';
+import {RequestService} from '../../../shared/services/request/request-service.service';
 import {ReleaseInfo} from '../../../_models/data.model';
 import {ReleaseListComponent} from '../../release-list/release-list.component';
 import {NullContentComponent} from '../../null-content/null-content.component';
