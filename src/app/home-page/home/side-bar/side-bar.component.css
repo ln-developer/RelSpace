@@ -64,17 +64,14 @@ app-window-with-input{
   width: 250px;
 }
 
-.more-btn:hover{
-  box-shadow: #ff9d9d 0 0 15px;
+.more-btn:hover, .more-btn:focus{
+  box-shadow: #a8a8a8 0 0 15px;
+  scale: 105%;
+  font-weight: 600;
 }
 
 .more-btn:active{
   scale: 90%;
-}
-
-.more-btn:focus{
-  font-weight: 600;
-  box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.16);
 }
 
 .links {

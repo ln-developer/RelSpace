@@ -31,7 +31,7 @@
 .btn-switch{
   background-color: #FF6C6C;
   font-size: 1rem;
-  color: white;
+  color: #f3ecec;
   width: 100px;
   border-radius: 0 0 0 20px;
   transition: 0.3s ease-in-out;
@@ -50,7 +50,7 @@
 .btn-add{
   background-color: #83FE97;
   font-size: 2rem;
-  color: white;
+  color: #f3ecec;
   width: 50px;
   border-radius: 0 0 20px 0;
   transition: 0.3s ease-in-out;
@@ -60,13 +60,15 @@
   box-shadow: inset 3px 3px 30px 0 rgba(190, 190, 190, 0.5);
 }
 
-.btn-switch:focus{
+.btn-switch:focus, .btn-switch:hover{
   font-weight: 600;
+  color: white;
   box-shadow: 0 0 10px rgb(173, 173, 173);
 }
 
-.btn-add:focus{
+.btn-add:focus, .btn-add:hover{
   font-weight: 600;
+  color: white;
   box-shadow: 0 0 10px rgb(173, 173, 173);
 }
 
