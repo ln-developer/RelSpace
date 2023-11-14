@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {TAGS} from '../../../../_constants/constants';
-import {ReleaseDataManagementService} from '../../../services/releases-data-management/release-data-management.service'
+import {TAGS} from '../../../_constants/constants';
+import {ReleaseDataManagementService} from '../../services/releases-data-management/release-data-management.service'
 
 
 @Component({

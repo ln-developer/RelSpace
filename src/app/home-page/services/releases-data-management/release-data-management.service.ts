@@ -3,8 +3,8 @@ import {AddingReleaseInfo, DeletingReleaseInfo, SelectedWeekData} from '../../..
 import {ModifyReleaseListResponse, ReleaseDataResponse} from '../../../_models/response.model';
 import {RequestService} from '../../../shared/services/request/request-service.service';
 import {ReleaseInfo} from '../../../_models/data.model';
-import {ReleaseListComponent} from '../../home/side-bar/window-with-input/release-list/release-list.component';
-import {NullContentComponent} from '../../home/side-bar/window-with-input/null-content/null-content.component';
+import {ReleaseListComponent} from '../../side-bar/window-with-input/release-list/release-list.component';
+import {NullContentComponent} from '../../side-bar/window-with-input/null-content/null-content.component';
 
 @Injectable({
   providedIn: 'root'
