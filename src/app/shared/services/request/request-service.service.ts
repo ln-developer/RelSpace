@@ -15,6 +15,7 @@ export class RequestService {
 
   getReleasesForSelectedWeek(weekData: SelectedWeekData): Observable<ReleaseDataResponse> {
     return this.http.post<ReleaseDataResponse>(`${this.serverUrl}/getReleasesForSelectedWeek`, weekData).pipe(
+      // перенести логику в interceptor
       catchError((error: HttpErrorResponse) => {
         const errorMessage = 'Ошибка отправки данных: ' + error.message;
         alert(errorMessage);
